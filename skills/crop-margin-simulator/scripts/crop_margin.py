@@ -22,6 +22,7 @@ Why we call with use_fallback_on_error=False then load the CSV explicitly:
 import sqlite3
 import sys
 from pathlib import Path
+from typing import Optional
 
 # ── Path setup ─────────────────────────────────────────────────────────────────
 # File lives at:  ABE/skills/crop-margin-simulator/scripts/crop_margin.py
@@ -118,21 +119,27 @@ def run_crop_margin(
     acres: float,
     county: str,
     price_override: float = None,
+    farmer_costs: Optional[dict] = None,
 ) -> dict:
     """
     Estimate net margin for an Iowa corn or soybean operation.
 
     Args:
-        crop:           "corn" or "soybeans" (case-insensitive).
-        acres:          Total acres in the operation.
-        county:         Iowa county (passed through to output; not used in math).
+        crop:         "corn" or "soybeans" (case-insensitive).
+        acres:        Total acres in the operation.
+        county:       Iowa county (passed through to output; not used in math).
         price_override: If provided, use this $/bu instead of fetching live data.
+        farmer_costs: Optional dict of {category: actual_cost_per_acre}. The
+                      farmer's real $/acre for any input they know. The delta
+                      vs. the ISU benchmark is computed inside calculate_margin.
+                      Unknown categories are ignored.
 
     Returns:
-        Dict with exactly 11 keys:
+        Dict with 12 keys:
             crop, county, acres, price_per_bu, price_source,
             gross_revenue, total_cost, net_margin,
-            cost_source, yield_bu_per_acre, year
+            cost_source, yield_bu_per_acre, year,
+            cost_adjustments_applied
 
     Raises:
         ValueError: crop is not "corn" or "soybeans".
@@ -182,6 +189,7 @@ def run_crop_margin(
         yield_bu=expected_yield,
         price_per_bu=price,
         rental_rate=DEFAULT_RENTAL_RATE,
+        farmer_costs=farmer_costs,
     )
 
     # ── 4. Return exactly 11 keys ──────────────────────────────────────────────
@@ -198,9 +206,10 @@ def run_crop_margin(
         "gross_revenue":     round(result.gross_revenue_per_acre * result.acres, 2),
         "total_cost":        round(result.total_cost_per_acre    * result.acres, 2),
         "net_margin":        result.net_margin_total,
-        "cost_source":       result.source,
-        "yield_bu_per_acre": result.yield_bu,
-        "year":              result.data_year,
+        "cost_source":              result.source,
+        "yield_bu_per_acre":        result.yield_bu,
+        "year":                     result.data_year,
+        "farmer_cost_overrides":    result.farmer_cost_overrides,
     }
 
 
@@ -242,6 +251,19 @@ TOOL = {
                     "Price per bushel if the farmer wants to use their own price "
                     "instead of NASS data. Optional."
                 ),
+            },
+            "farmer_costs": {
+                "type": "object",
+                "description": (
+                    "Optional dict of {category: actual_$/acre} for any input cost the "
+                    "farmer knows. Use the farmer's actual number — the delta vs. the ISU "
+                    "benchmark is computed automatically. "
+                    "Corn categories: 'seed', 'fertilizer', 'pesticide', 'machinery', "
+                    "'labor', 'drying', 'crop_insurance', 'miscellaneous'. "
+                    "Soybean categories: same except no 'drying'. "
+                    "Unknown categories are ignored."
+                ),
+                "additionalProperties": {"type": "number"},
             },
         },
         "required": ["crop", "acres", "county"],

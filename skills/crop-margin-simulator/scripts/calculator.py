@@ -1,20 +1,48 @@
 """
 margin_calculator — ABE skill
 
-calculate_margin(crop, acres, yield_bu, price_per_bu, rental_rate)
+Public API
+----------
+calculate_margin(crop, acres, yield_bu, price_per_bu, rental_rate) -> MarginResult
 
-Queries the crop_costs SQLite table for ISU Extension benchmark costs,
-then returns gross revenue, costs broken down by category, net margin per
-acre, and a comparison to the ISU benchmark margin.
+How the calculation works
+-------------------------
+Step 1 — Load ISU production costs from abe.db
+    SELECT category, cost_per_acre FROM crop_costs WHERE crop = ?
+    Costs are seeded from ISU Extension "Estimated Costs of Crop Production
+    in Iowa" (A1-20, 2024) and cover seed, fertilizer, chemicals, machinery,
+    drying, insurance, and overhead — everything except land rent.
 
-All financial figures come from crop_costs.db (seeded from ISU Extension
-"Estimated Costs of Crop Production in Iowa"). No arithmetic is invented
-by the model.
+Step 2 — Apply farmer cost overrides (optional)
+    If farmer_costs is provided, each {category: actual_$/acre} replaces
+    the ISU value for that category. The delta (farmer − ISU) is computed
+    here — the caller only needs to know what the farmer actually pays.
+    Unknown categories are ignored. The ISU benchmark comparison is never
+    adjusted — it always reflects the unmodified ISU baseline.
+
+Step 3 — Compute farmer figures (per acre)
+    gross_revenue_per_acre  = yield_bu × price_per_bu
+    production_cost_per_acre = sum of adjusted cost categories (no land)
+    total_cost_per_acre      = production_cost_per_acre + rental_rate
+    net_margin_per_acre      = gross_revenue_per_acre − total_cost_per_acre
+
+Step 4 — Scale to operation total
+    net_margin_total = net_margin_per_acre × acres
+
+Step 5 — ISU benchmark comparison
+    Uses fixed ISU baseline assumptions (corn: 200 bu/acre @ $4.50/bu,
+    soybeans: 55 bu/acre @ $11.50/bu, rent: $230/acre for both) to compute
+    isu_net_margin_per_acre. margin_vs_benchmark = farmer − ISU.
+    Same production cost rows are reused; only yield, price, and rent differ.
+
+No arithmetic is performed outside this module. All financial figures
+originate from crop_costs.db (seeded from ISU Extension data).
 """
 
 import sqlite3
 from pathlib import Path
 from dataclasses import dataclass, field
+from typing import Optional
 
 DB_PATH = Path(__file__).parent.parent.parent.parent / "data" / "abe.db"
 
@@ -45,8 +73,11 @@ class MarginResult:
     rental_rate: float
 
     gross_revenue_per_acre: float = 0.0
-    costs_by_category: dict = field(default_factory=dict)   # {category: $/acre}
-    production_cost_per_acre: float = 0.0                   # excludes land rent
+    costs_by_category: dict = field(default_factory=dict)        # {category: $/acre} after adjustments
+    farmer_cost_overrides: dict = field(default_factory=dict)
+    # {category: {"farmer_cost": x, "isu_cost": y, "savings_per_acre": z}}
+    # savings_per_acre is positive when farmer pays less than ISU benchmark
+    production_cost_per_acre: float = 0.0                        # excludes land rent
     total_cost_per_acre: float = 0.0                        # includes land rent
     net_margin_per_acre: float = 0.0
     net_margin_total: float = 0.0
@@ -66,19 +97,25 @@ def calculate_margin(
     yield_bu: float,
     price_per_bu: float,
     rental_rate: float,
+    farmer_costs: Optional[dict] = None,
 ) -> MarginResult:
     """
     Calculate per-acre and total margin for a crop, comparing to ISU benchmarks.
 
     Args:
-        crop:          Crop name — "corn" or "soybeans" (case-insensitive).
-        acres:         Total acres planted.
-        yield_bu:      Expected yield in bushels per acre.
-        price_per_bu:  Expected price in dollars per bushel.
-        rental_rate:   Cash rent paid per acre.
+        crop:         Crop name — "corn" or "soybeans" (case-insensitive).
+        acres:        Total acres planted.
+        yield_bu:     Expected yield in bushels per acre.
+        price_per_bu: Expected price in dollars per bushel.
+        rental_rate:  Cash rent paid per acre.
+        farmer_costs: Optional dict of {category: actual_cost_per_acre}. The
+                      farmer's real $/acre for any input they know. The delta
+                      vs. the ISU benchmark is computed here — the caller does
+                      not need to know the benchmark values. Unknown categories
+                      are ignored. The ISU benchmark comparison is never adjusted.
 
     Returns:
-        MarginResult dataclass with gross revenue, costs by category,
+        MarginResult dataclass with gross revenue, adjusted costs by category,
         net margin per acre, and ISU benchmark comparison.
 
     Raises:
@@ -127,15 +164,30 @@ def calculate_margin(
     data_year = rows[0]["year"]
     source = rows[0]["source"]
 
+    # --- Apply farmer cost overrides (only for known categories) ---
+    # farmer_costs values are actual $/acre the farmer pays; delta is computed here.
+    farmer_cost_overrides = {}
+    if farmer_costs:
+        for category, farmer_cost in farmer_costs.items():
+            if category in costs_by_category:
+                isu_cost = costs_by_category[category]
+                costs_by_category[category] = farmer_cost
+                farmer_cost_overrides[category] = {
+                    "farmer_cost":    round(farmer_cost, 2),
+                    "isu_cost":       round(isu_cost, 2),
+                    "savings_per_acre": round(isu_cost - farmer_cost, 2),
+                }
+
     production_cost_per_acre = sum(costs_by_category.values())
     total_cost_per_acre = production_cost_per_acre + rental_rate
     gross_revenue_per_acre = yield_bu * price_per_bu
     net_margin_per_acre = gross_revenue_per_acre - total_cost_per_acre
 
-    # --- ISU benchmark comparison ---
+    # --- ISU benchmark comparison (always unmodified ISU costs) ---
     bench = ISU_BENCHMARK[crop]
     isu_gross = bench["yield_bu"] * bench["price_per_bu"]
-    isu_total_cost = production_cost_per_acre + bench["rental_rate"]  # same production costs
+    isu_production_cost = sum(r["cost_per_acre"] for r in rows)  # unmodified
+    isu_total_cost = isu_production_cost + bench["rental_rate"]
     isu_net_margin = isu_gross - isu_total_cost
 
     return MarginResult(
@@ -146,6 +198,7 @@ def calculate_margin(
         rental_rate=rental_rate,
         gross_revenue_per_acre=round(gross_revenue_per_acre, 2),
         costs_by_category={k: round(v, 2) for k, v in costs_by_category.items()},
+        farmer_cost_overrides=farmer_cost_overrides,
         production_cost_per_acre=round(production_cost_per_acre, 2),
         total_cost_per_acre=round(total_cost_per_acre, 2),
         net_margin_per_acre=round(net_margin_per_acre, 2),

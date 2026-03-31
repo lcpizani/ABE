@@ -32,7 +32,7 @@ from typing import Optional
 # parents[3] = ABE/  ← project root
 ROOT = Path(__file__).resolve().parents[3]
 
-sys.path.insert(0, str(ROOT))   # for nass_api
+sys.path.insert(0, str(ROOT / "scripts"))   # for nass_api
 # calculator.py lives in the same scripts/ directory — no extra path needed
 
 # ── Import existing modules — do not modify these files ───────────────────────

@@ -16,7 +16,7 @@ import sqlite3
 from pathlib import Path
 from dataclasses import dataclass, field
 
-DB_PATH = Path(__file__).parent.parent.parent / "data" / "crop_costs.db"
+DB_PATH = Path(__file__).parent.parent.parent.parent / "data" / "abe.db"
 
 ALLOWED_CROPS = {"corn", "soybeans"}
 
@@ -101,7 +101,7 @@ def calculate_margin(
 
     if not DB_PATH.exists():
         raise FileNotFoundError(
-            f"crop_costs.db not found at {DB_PATH}. Run data/seed_db.py first."
+            f"abe.db not found at {DB_PATH}. Run data/seed_db.py first."
         )
 
     # --- Query ISU costs from database ---
@@ -119,7 +119,7 @@ def calculate_margin(
 
     if not rows:
         raise ValueError(
-            f"No cost data found for '{crop}' in crop_costs.db. "
+            f"No cost data found for '{crop}' in abe.db. "
             "Check that seed_db.py ran successfully."
         )
 

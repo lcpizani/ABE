@@ -11,12 +11,12 @@ Run once before starting ABE:
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "crop_costs.db"
+DB_PATH = Path(__file__).parent / "abe.db"
 
 SOURCE = "ISU Extension — Estimated Costs of Crop Production in Iowa"
-YEAR = 2024
+YEAR = 2025
 
-# ISU 2024 production cost estimates (excludes land rent — added at query time).
+# ISU 2025 production cost estimates (excludes land rent — added at query time).
 # All figures are dollars per acre.
 CROP_COSTS = [
     # --- Corn ---

@@ -32,11 +32,11 @@ from typing import Optional
 # parents[3] = ABE/  ← project root
 ROOT = Path(__file__).resolve().parents[3]
 
-sys.path.insert(0, str(ROOT))   # for nass_api
+sys.path.insert(0, str(ROOT))   # for scripts.nass_api
 # calculator.py lives in the same scripts/ directory — no extra path needed
 
 # ── Import existing modules — do not modify these files ───────────────────────
-from nass_api import (                          # noqa: E402
+from scripts.nass_api import (                          # noqa: E402
     get_iowa_cash_prices,
     get_iowa_data,
     load_mars_fallback,

@@ -50,12 +50,13 @@ _load_env_file()
 
 API_KEY           = os.getenv("NASS_API_KEY", "YOUR_NASS_API_KEY_HERE")
 BASE_URL          = "https://quickstats.nass.usda.gov/api/api_GET/"
-FALLBACK_CSV      = "nass_fallback.csv"
+_DATA_DIR         = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
+FALLBACK_CSV      = os.path.join(_DATA_DIR, "nass_fallback.csv")
 
 MARS_API_KEY      = os.getenv("MARS_API_KEY", "YOUR_MARS_API_KEY_HERE")
 MARS_BASE_URL     = "https://marsapi.ams.usda.gov/services/v1.2/reports/"
 MARS_REPORT_ID    = "2850"                # Iowa Daily Cash Grain Bids
-MARS_FALLBACK_CSV = "mars_fallback.csv"
+MARS_FALLBACK_CSV = os.path.join(_DATA_DIR, "mars_fallback.csv")
 
 # ── What we want to fetch ──────────────────────────────────────────────────────
 #

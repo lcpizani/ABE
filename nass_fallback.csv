@@ -1,0 +1,4 @@
+label,description,year,value,unit,fetched_at
+corn_price_iowa,Iowa Corn — Price Received ($ / BU),2025,4.1,$ / BU,2026-03-30 12:55:59
+soybean_price_iowa,Iowa Soybeans — Price Received ($ / BU),2025,10.2,$ / BU,2026-03-30 12:56:00
+corn_yield_iowa,Iowa Corn — Yield (BU / ACRE),2025,210,BU / ACRE,2026-03-30 12:56:00

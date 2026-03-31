@@ -1,0 +1,13 @@
+---
+telegram_id:
+name:
+county:
+crops:
+acres:
+tenure:
+years_farming:
+lease_renewal:
+programs_enrolled:
+notes:
+last_talked:
+---

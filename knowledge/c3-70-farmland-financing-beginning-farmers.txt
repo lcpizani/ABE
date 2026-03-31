@@ -1,0 +1,60 @@
+Source: https://www.extension.iastate.edu/agdm/wholefarm/html/c3-70.html
+
+Comparison of Farmland Financing Options  | Ag Decision Maker
+Skip to main content
+Whole Farm  >
+Financial
+>
+Analysis
+Written July, 2024
+File C3-70
+pdf
+Comparison of farmland financing options
+Comparison of Farmland Financing Options for Beginning Farmers and Ranchers in Iowa: Land Ownership Purchase
+The purchase of capital assets in agriculture can be a
+barrier to entry
+for many beginning farmers. The use of beginning farmer loan programs provide benefits for qualified borrowers such as a reduced interest rate, guarantee through a commercial lender, or remove the need for a co-signer. The guarantee provides the lender repayment assurance for a loan to a business that may have limited assets available for collateral. Beginning farmer loan programs through the United States Department of Agriculture Farm Service Agency (FSA) can be beneficial in providing financial assistance or loan guarantees for borrowers who may not have the collateral required by commercial lenders. Other loan programs may also be available at the state level, such as through the Iowa Finance Authority (IFA), Beginning Farmer Loan Program. Other states may have similar programs at the state level to consider.
+Types of Loans in Decision Tool
+Prior to applying for loan programs, analyzing the options and knowing the requirements for an operation’s cash flow can be an advantageous first step. To aid in this, the associated
+AgDM Decision Tool
+highlights and compares select farmland financing options for beginning farmers and ranchers from the USDA Farm Service Agency (FSA). It is meant to be educational in nature and should not be considered financial advice. While the tool cannot encompass all financing options, it compares three major loan programs from USDA FSA side-by-side with a non-FSA funded loan (commercial loan), showing loan requirements and the impact of the different interest and principal payments requirements for financing a purchase.
+Using the Decision Tool
+The Decision Tool requires no personal information to be entered. Users enter the county doing business in (for loan acre limitations), purchase price, and questions that may impact loan limits from USDA FSA. Under each type of loan users can enter the down payments, interest rates, and years to analyze the different loan programs. The tool automatically calculates any required down payments, and notes maximum loan amounts as well as years loan can be financed for. Once all required information is entered, users can view annual information including: the payments by year, by acre, or by animal unit. The analysis also shows the total interest accrued over the course of the loan and cost of financing by lender and in total. Note that actual interest and final amounts will vary due to rounding or accumulation of interest over the course of any one loan. The approximated amounts should be used in cash flow budget projections and determine the feasibility of capital purchases and how a purchase would impact the cash flow of a farm operation.
+Other Considerations
+This Decision Tool evaluates and compares the primary purchase only. When considering cash flow needs for farmland or other capital purchase, long-term ownership costs should also be taken into account. Long-term ownership costs might include, but are not limited to: property taxes, fence improvements or repairs, conservation improvements, drainage district assessments, and liability insurance. This spreadsheet only looks at the cash flow requirements and doesn’t evaluate the return to land as an investment. Ag Decision Maker Files
+Evaluating a Land Purchase Decision: Economic Analysis
+, C2-76, and
+Financial Analysis
+, C2-77, along with the
+companion Decision Tool
+, addresses these considerations.
+As mentioned previously, the use of beginning farmer loan programs can eliminate the need for a co-signer as required for a commercial loan. This benefits loan applicants who may not have a party to provide that requirement. In some situations an older party may want to help a younger generation get started by providing a gift toward the down payment rather than co-signing. Providing a monetary gift for a set amount reduces or eliminates risk for the older party.
+Next Steps
+The loan programs described here vary on the requirements for eligibility, either based on age, education or years of experience, net worth, or maximum loan allowed. Consult with qualified USDA FSA or IFA staff who can provide expert advice on program eligibility and current regulations for specific situations. Also review websites and publications that contain the most up-to-date information on loan programs.
+Resources to Learn More
+USDA FSA,
+Your Guide to FSA Loans
+USDA FSA farm loan quiz
+(confirm program eligibility)
+Find a USDA FSA Service Center
+Iowa Finance Authority,
+Beginning Farmer Loan Program
+Ag Decision Maker Publications on Cash Flow and Farmland Purchases
+Understanding Cash Flow Analysis
+Twelve Steps to Cash Flow Budgeting
+Evaluating a Land Purchase Decision: Economic Analysis
+Evaluating a Land Purchase Decision: Financial Analysis
+Direct Financing Options for Beginning Farmers and Ranchers in Iowa -- Ownership Purchase
+Kelvin Leibold, retired extension field specialist,
+agdm@iastate.edu
+Ann M. Johanns, extension program specialist,    515-337-2766,
+aholste@iastate.edu
+Kelvin Leibold
+retired farm management specialist
+View more from this author
+Ann M. Johanns
+extension program specialist
+515-337-2766
+View more from this author
+Use this decision tool to compare direct and commercial loans for land ownership purchases in Iowa.
+pinguicula

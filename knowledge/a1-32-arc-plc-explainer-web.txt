@@ -1,0 +1,77 @@
+Source: https://www.extension.iastate.edu/agdm/crops/html/a1-32.html
+
+New Safety Net: PLC, ARC-CO, ARC-IC | Ag Decision Maker
+Skip to main content
+Crops >
+Costs & Returns
+>
+Government Programs
+Updated March, 2015
+File A1-32
+pdf
+decisiontools
+New Safety Net: PLC, ARC-CO, ARC-IC
+The 2014  Farm Bill introduced several changes to the commodity  programs available  through the Farm Service Agency (FSA) and created a  new insurance program to  complement one commodity program through the  Risk Management Agency (RMA).This  article provides an overview of the  new safety net available to Iowa crop  operators
+1
+through FSA from 2014 to 2018, and explains  the timing of the decisions involved in selecting a farm program.
+New Commodity Programs
+The 2014 Farm Bill  established two new programs,  Price Loss Coverage (PLC) and Agricultural Risk  Coverage (ARC), and  repealed the Direct and Counter-Cyclical Program (DCP), the   Supplemental Revenue Assistance Program (SURE), and the Average Crop  Revenue Election  Program (ACRE). The ARC program is offered at the  individual farm level  (ARC-IC) and at the county level (ARC-CO). The  Marketing Assistance Loan  program was extended until 2018 with the same  loan rates, providing a safety  net against very low prices.
+For  each FSA farm, operators can choose between (1) enrolling each crop in PLC or  ARC-CO; and (2) enrolling all program  crops on the farm in ARC-IC. For  example, a farm can have corn base acres  participating in ARC-CO and  soybeans base acres participating in PLC. However,  if ARC-IC is elected  for a farm, then all crops in that farm must participate  in it, and  the farm can participate in neither of the other two programs.
+In order to participate in  the new commodity  programs, operators are required to (1) be certified as  "actively  engaged in farming," (2) have an average adjusted annual gross income   (AGI) of up to $900,000 over the most recent three years, (3) submit an  acreage  report for all cropland on the farm, (4) comply with the Highly  Erodible Land Conservation  and Wetland Conservation provisions, and  (5) have more than 10 base acres on a  farm (unless the operator is a  socially disadvantaged operator or is a limited  resource operator).  Previous AGI provisions distinguished between farm and  non-farm AGI,  while the current provision averages across farm and non-farm  income.  The third prerequisite for eligibility also applies to marketing   assistance loans and loan deficiency payments.
+The total amount of payments received, directly and   indirectly, by a person or entity (except joint ventures or general   partnerships) for PLC, ARC-CO, ARC-IC, marketing loan gains, and loan   deficiency payments may not exceed $125,000 per crop year. Each couple  has a  limit of $250,000 on total payments.
+Payments for PLC, ARC-CO,  and ARC-IC are based on  base acres (not planted acres) and are issued after the  end of the  respective crop year, but not before October 1. Base acres are  defined  by FSA as “a farm’s crop-specific acreage of wheat, feed grains, rice,   oilseeds, pulse crops, or peanuts eligible used for FSA program  purposes. Base  acres do not necessarily align with current plantings.”  Planted acres are only  relevant for the Agricultural Risk  Coverage-Individual program, where they are  used to determine the  weights applied in the calculation of actual and  benchmark revenues.
+Starting in 2015,  operators enrolled in PLC who  insure their crops with COMBO products may choose  to buy the  Supplemental Coverage Option (SCO) at a subsidized rate. For more   information on SCO see AgDM File A1-44,
+New Safety Net: SCO
+.
+Price  Loss Coverage (PLC)
+PLC  offers price protection. Payments are triggered when the  Effective Price of a  covered commodity is lower than the Reference  Price for that commodity. The  Reference Prices for corn and soybeans  were set for 2014-2018 by statute at  $3.70 and $8.40 per bushel,  respectively. In essence, PLC is similar to the  repealed  Counter-Cyclical Payments program, since both use reference prices to   determine payments.
+The Effective Price is the higher of the Marketing  Year Average  (MYA) Price or the National Loan Rate ($1.95 per bushel of  corn and $5.00 per bushel of soybeans).  The MYA prices for corn and  soybeans are the average prices observed between  September 1 of one  year and the following August 31.
+The PLC Payment  equals 85 percent of the Base Acres  of the covered commodity times the  difference between the Reference  Price and the Effective Price times the  Program Payment Yield for the  covered commodity. It is important to highlight  that payments are made  on base acres, not on planted acres.
+Unless operators  choose to change the Program  Payment Yield (see section on Implementation  Process below), they will  keep the current payment yields at the levels used in  the 2008 Farm  Bill Counter-Cyclical Payments (CCP) program.
+Agricultural Risk Coverage-County (ARC-CO)
+ARC-CO offers shallow loss revenue protection at the  county  level. Payments are triggered when the Actual County Crop Revenue of a   covered commodity is less than the ARC-CO Guarantee Revenue for that  commodity.  Both the guarantee and the actual revenue are computed using  base acres, not  planted acres; and county yields, not individual farm  yields.
+The ARC-CO Payment equals 85 percent of the base  acres of  the covered commodity times the lower of (a) the difference  between the ARC-CO  Guarantee Revenue and the Actual County Crop Revenue  for the covered commodity;  and (b) 10 percent of the Benchmark County  Revenue. The ARC-CO Guarantee  Revenue equals 86 percent of the  Benchmark County Revenue.
+The Benchmark County  Revenue is equal to the ARC-CO  Guarantee Price (Olympic average of previous  5-year MYA prices) times  the ARC-CO Guarantee Yield (Olympic average of the  previous 5-year  county yields). The Olympic average is obtained by eliminating  the  highest and the lowest values from the list and computing the average  over  the remaining values (in this case, three values).
+If the county yield for the covered commodity for any  of  the five most recent crop years is less than 70 percent of the  transitional  yields as determined by the Secretary of Agriculture for  each crop and county,  the amounts used for any of those years in the  calculation of the ARC-CO  Guarantee Yield shall be 70 percent of the  transitional yield. Similarly, if  the MYA price for any of the most  recent five crop years is lower than the  Reference Price for the  covered commodity, the Reference Price shall be used  for any of those  years in the calculation of ARC-CO Guarantee Price.
+The Actual County Crop Revenue for a covered  commodity in  a particular year equals the Actual Average County Yield  times the higher of  the MYA Price or the national average loan rate for  a mar­keting assistance  loan.
+Agricultural  Risk Coverage-Individual (ARC-IC)
+ARC-IC offers shallow  loss revenue protection at an individual  farm level across all farms enrolled.  Payments are made when the  Actual Crop Revenue across all covered commodities  on “farm” is less  than the ARC-IC Revenue Guarantee across those covered  commodities on  the “farm.”
+For ARC-IC, “farm” is defined as the sum of the   operator’s interests in all ARC-IC participating farms in the state.  Therefore,  if an operator enrolls two or more farms with corn and  soybean base acres in  the state of Iowa into the ARC-IC program, then  his or her revenue (actual and  guarantee) is computed as a weighted  average of individual revenue from corn  and soybeans, with the weights  being the ratio of the sum of planted acres to  each crop across his or  her ARC-IC farms divided by the sum of planted acres to  all crops  across his or her ARC-IC farms.
+The ARC-IC payment equals 65 percent of the sum of  the  base acres of all covered commodities on "farm", times the lower of  (a) the  difference between the ARC-IC Guarantee Revenue and the Actual  Crop Revenue  across all covered commodities planted on the “farm,” and  (b) 10 percent of the  Individual Benchmark Revenue for all covered  commodities on the farm. The  ARC-IC Guarantee Revenue equals 86 percent  of the Individual Benchmark Revenue.
+The Individual Benchmark Revenue is the weighted sum   across all planted crops under ARC-IC of the Olympic average of the  most recent  5-year crop revenues, with the weights being the shares of  planted acres to  each crop among all planted acres on the “farm.” Crop  revenue for each crop for  each year equals the individual yield times  the MYA price. If any of those five  individual yields is less than 70  percent of the transitional yield, the  individual yield shall be  replaced in the Olympic average formula for 70  percent of the  transitional yield. If any of those five MYA Prices is lower  than the  reference price, then the latter price is used in place of the former.
+The Actual Crop  Revenue is the weighted sum of the actual  revenues per crop, with the weights  being the shares of planted acres  to each crop among all planted acres on  “farm.” Actual revenue per crop  equals the actual individual yield times the  highest of the MYA price  or the national loan rate.
+Planted acres to each  crop are used in the  computation of the program payment per acre to weight  individual  revenues from each crop across farms and crops; while total base  acres  across farms and crops is used in the final step to calculate the total   program payment.
+In essence, the ARC-CO and ARC-IC are similar  to the  repealed Average Crop Revenue Election (ACRE) program, since they are   all revenue based programs and share the basic payment structures. The  main  difference resides in that while ACRE was triggered at the state  level, ARC-CO  and ARC-IC are triggered at the county and individual  farm level, respectively.  By bringing the triggering events closer to  the individual farm, ARC-CO and  ARC-IC should be better risk management  tools than ACRE.
+Timing of Decisions
+Participation in the  new commodity programs requires operators to make three choices: first, to  choose whether to
+update
+base acres and payment yields, then to
+elect
+a program, and finally to
+enroll
+in the chosen program.
+Between September 29, 2014 and March 31, 2015
+2
+, land  owners have a one-time opportunity to
+update
+payment yields for  PLC and/or reallocate base acres based on recent  production history. Since both  choices are recorded in one FSA form  (CCC-858), land owners must be prepared to  fill out both portions of  the form when they head to their local FSA office.  For more information  on these choices, see AgDM File A1-35,
+Base Acreage Reallocation and Payment Yield Update
+.
+Between November 17,  2014 and March 31, 2015 operators will have a one-time opportunity to
+elect
+among PLC, ARC-IC and ARC-CO. That election will be binding for the  life of the 2014 Farm Bill. Those    operators that fail to elect a program will be excluded from PLC,    ARC-IC and ARC-CO in 2014 and their farms will automatically be under    PLC starting in 2015.
+The  election of a program is a necessary but not  sufficient condition to  participate in it: each year, operators will  have to
+enroll
+in  the elected program to  participate. The alternative is not to enroll and not to  participate in  PLC, ARC-IC and ARC-CO for that year. For crop years 2014 and  2015,  the enrollment period to participate in FSA programs will start in   mid-April 2015 and it will end sometime in the summer of  2015.
+1
+Operators growing  Upland cotton would only be eligible  to participate in the new  Stacked Income Protection Plan (STAX) offered  by the RMA.
+2
+A 1-time extension was made on February 27, 2015 to extend the
+update
+and reallocation period 1-month, to March 31, 2015.
+Alejandro Plastina, Director, Rural & Farm Finance Policy Analysis Center (RaFF),
+plastina@missouri.edu
+Alejandro Plastina
+Director, Rural & Farm Finance Policy Analysis Center (RaFF)
+View more from this author
+pinguicula

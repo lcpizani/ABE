@@ -1,0 +1,40 @@
+Source: https://www.extension.iastate.edu/agdm/crops/html/a1-33.html
+
+Farm Bill Programs: Data and Methods for ARC-County and PLC | Ag Decision Maker
+Skip to main content
+Crops >
+Costs & Returns
+>
+Government Programs
+Updated January, 2025
+File A1-33
+decision tools
+Farm Bill Programs: Data and Methods for ARC-County and PLC
+The Decision Tool,
+ARC-CO & PLC Per Acre Payment Estimator for Iowa, 2025-2026
+, uses reported and projected prices from USDA Farm Service Agency and Risk Management Agency to project payments at the county level for ARC-CO and PLC. This Decision Tool allows user considering ARC-CO or PLC to enter their own estimates to determine the risk management program for their farm under the 2018 Farm Bill. This tool is updated as new information is released on the
+USDA FSA website
+.
+The Decision Tool,
+ARC-CO & PLC Per Acre Payment Projections by Crop and County for Iowa, 2019-24
+, provides projections on Iowa county level payments under ARC-CO and PLC for the 2024 crop as well as historical payment data for crop years 2019 through 2023. Data can be viewed for an individual county, or see annual data for all Iowa counties.
+The Decision Tool,
+ARC-CO & PLC Payments by Crop and County for Iowa, 2014-2018
+, provides historical information on Iowa county level payments under ARC-CO and PLC from 2014 through 2018. Data can be viewed for all years for an individual county, or see annual data for all Iowa counties.
+The
+ISU 2014 Farm Bill Analyzer
+focuses on decisions made for the 2014 farm bill at the single-farm level for corn and/or soybean producers in Iowa. Using historical information and expectations about prices and yields, the ISU 2014 Farm Bill Analyzer calculates expected payments and probabilities associated with payments under all possible combinations of programs across crops.
+The
+Farm Bill Information page
+has additional information and resources on Farm Bill decisions.
+Alejandro Plastina, Director, Rural & Farm Finance Policy Analysis Center (RaFF),
+plastina@missouri.edu
+Kelvin Leibold, retired extension farm management specialist,
+agdm@iastate.edu
+Alejandro Plastina
+Director, Rural & Farm Finance Policy Analysis Center (RaFF)
+View more from this author
+Kelvin Leibold
+retired farm management specialist
+View more from this author
+pinguicula

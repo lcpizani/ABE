@@ -32,32 +32,42 @@ If they gave you a quoted rate, add: --quoted RATE
 
 ## How to present the result
 
-The script returns JSON. Use it to give a plain-language verdict.
+Walk the farmer through the comparison step by step. Do not just report
+high/low/fair. Explain where the benchmark comes from and let them see
+the full picture before you give a verdict.
 
-Always state:
-- The ISU benchmark for their county and quality tier (low/avg/high range)
-- Whether their quoted rate is below, at, or above average
-- The source: "ISU Extension AgDM C2-10, 2025 survey"
+No bullet points. No bold headers. Sentences, in plain English.
 
-If their rate is above the high end of the range, say so plainly.
-If their rate is below average, note that too — do not assume cheap is
-always good (may signal lower quality ground).
+Follow this sequence:
 
-After the verdict, offer one natural next step:
-- If rate is high → "Want me to run the margin to see if it still
-  pencils out at that rent?"
-- If rate is fair → "Want me to run the full margin to see where you
-  stand overall?"
+**Step 1 — Name the benchmark and its source.**
+State what ISU Extension found for their county and quality tier,
+including the full range and the average. Name the source:
+"ISU Extension surveyed cash rents across Iowa for 2025. For
+[quality]-quality ground in [county], they found rents running from
+[low] to [high] an acre, with most ground changing hands around [avg]."
 
-## Example response shape
+**Step 2 — Compare their number to the range.**
+If they gave you a quoted rate, place it in the range explicitly.
+Do not just say "above average" — say where in the range it lands
+and by how much: "At [their rate], you are [X] above the county
+average and [Y] below the top of the range" or "You are paying about
+[X] more than most people in your county for that quality of ground."
 
-Write like you are talking, not reporting:
+If their rate is below average, note that too. A below-average rate
+is not automatically good news — it may reflect ground quality or
+a long-term lease that could be repriced.
 
-> ISU puts typical rent for high-quality ground in Linn County at
-> $286–$360 an acre this year, with an average of $323. At $340,
-> you are on the high end but still within the normal range.
->
-> Want me to run your margin to see if that rent still works at
-> current corn prices?
->
-> Source: ISU Extension AgDM C2-10, 2025 survey.
+**Step 3 — Ask whether that matches what they expected.**
+Before offering a next step, give the farmer a chance to confirm or
+correct the picture: "Does that match what you were expecting, or is
+there something about this ground that might put it in a different
+category?"
+
+**Step 4 — Offer a natural next step.**
+- If rate is above average or high: "Want me to run the margin to see
+  if it still pencils out at that rent?"
+- If rate is fair or below: "Want me to run the full margin to see
+  where you stand overall?"
+
+Always cite the source at the end: ISU Extension AgDM C2-10, 2025 survey.

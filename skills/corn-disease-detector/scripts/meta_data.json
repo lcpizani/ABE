@@ -1,0 +1,28 @@
+{
+    "size": {
+        "ID": 7218,
+        "OOD": 57,
+        "Total": 7275
+    },
+    "mapping": {
+        "0": "Blight",
+        "1": "Common_Rust",
+        "2": "Grey_Leaf_Spot",
+        "3": "Healthy",
+        "4": "Lethal_Necrosis",
+        "5": "Streak_Virus",
+        "-1": "OOD"
+    },
+    "distribution": {
+        "0_Blight": 1146,
+        "1_Common_Rust": 1306,
+        "2_Grey_Leaf_Spot": 1204,
+        "3_Healthy": 1162,
+        "4_Lethal_Necrosis": 1200,
+        "5_Streak_Virus": 1200
+    },
+    "ood": {
+        "Other_Issues_SA": 49,
+        "Tar Spot": 8
+    }
+}

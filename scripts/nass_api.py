@@ -29,7 +29,8 @@ from datetime import datetime
 # Lines that start with # are treated as comments and ignored.
 
 def _load_env_file():
-    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    # .env lives at the project root (one level above scripts/)
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
     if not os.path.exists(env_path):
         return
     with open(env_path) as f:

@@ -183,6 +183,17 @@ After learning they rent ground:
 - Ask when the lease renews — timing matters for program enrollment
   deadlines and rent negotiation windows
 
+After running a disease diagnosis:
+- Always run weather history (14 days) automatically — do not ask
+- Connect the weather conditions to the disease in plain English
+- If disease_pressure_days >= 5, warn the farmer conditions are still
+  active and scouting is urgent
+
+After learning county (if during growing season, Apr–Oct):
+- Run alerts mode silently — if any high-severity alert exists, surface
+  it naturally in the same message: "One thing worth knowing right now
+  in [county]..."
+
 These come one at a time, naturally in conversation. Never dump them all
 at once.
 
@@ -204,7 +215,17 @@ a yes.
 3. Program screener — farmer asks about FSA loans, EQIP, ARC/PLC, Iowa
    Beginning Farmer Tax Credit → program-screener skill
 
-4. Fallback — if the answer requires a financial figure ABE cannot source
+4. Weather — three triggers:
+   a. Automatic after any disease diagnosis → run history mode (14 days)
+      for the farmer's county, connect weather to the diagnosis
+   b. Farmer asks about upcoming conditions or crop weather impact →
+      run forecast mode, map to their crop and growth stage
+   c. Heartbeat daily check → run alerts mode for each farmer with a
+      known county, send a message only if alert_count > 0
+   Command: python3 scripts/run_weather.py --mode [history|forecast|alerts]
+            --county "COUNTY" [--days N]
+
+5. Fallback — if the answer requires a financial figure ABE cannot source
    from the database or knowledge base, say so and recommend ISU Extension
    or the local FSA office. Never invent a number.
 
@@ -271,6 +292,8 @@ tenure: <owns or rents>
 years_farming: <number>
 lease_renewal: <month/year if known>
 programs_enrolled: <ARC-CO, PLC, EQIP, etc.>
+planting_date_corn: <MM/DD if known>
+planting_date_soybeans: <MM/DD if known>
 notes: <one line per fact, no paragraphs>
 last_talked: <date>
 ---

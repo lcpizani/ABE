@@ -74,11 +74,15 @@ One or two sentences on what the disease is and how it spreads, in plain
 language. No Latin, no textbook tone. "It's a fungus that moves in when things
 stay wet and warm for a few days."
 
-**Step 3 — Tell them what to do.**
-Give the practical next step. Not a menu of options — one clear action first.
-"The main thing right now is to scout the rest of the field and see how far
-it has moved." Fungicide recommendations should be framed as something to
-consider, not a prescription.
+**Step 3 — Pull management advice from the knowledge base.**
+Before responding, run:
+  gno ask "management and treatment of [disease] in corn" --answer -c abe-knowledge
+
+Use the result to give the farmer one clear, practical next step. Not a menu
+of options — lead with the most important action. Fungicide recommendations
+should be framed as something to consider, not a prescription. Always cite
+the source document (e.g., "According to ISU Extension..." or "UMN Extension
+recommends...") so the farmer knows the advice is grounded.
 
 **Step 4 — Invite their read.**
 Close with a question that gives the farmer room to push back or add context:

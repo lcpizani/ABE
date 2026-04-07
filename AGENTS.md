@@ -348,6 +348,7 @@ on any number before drawing a conclusion.
 │   ├── add_document.sh             (copy a file into knowledge/ for gno indexing)
 │   ├── gno-daemon.sh               (start/stop the gno index daemon)
 │   ├── nass_api.py                 (fetch live USDA NASS prices)
+│   ├── run_budget.py               (CLI wrapper: budget planner scenarios)
 │   ├── run_rental.py               (CLI wrapper: rental rate check)
 │   ├── run_weather.py              (CLI wrapper: weather history/forecast/alerts)
 │   ├── seed_cash_rent.py           (seed abe.db cash_rent table)

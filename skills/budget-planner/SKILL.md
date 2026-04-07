@@ -48,66 +48,45 @@ are you open to either?"
 
 ## How to build scenarios
 
-### For a renting decision
+### Running scenarios
 
-The core equation per scenario:
-  Affordable acres = Budget ÷ Cash rent per acre
-  Net margin = (Yield × Price) − Production cost − Rent
-  Season profit = Net margin × Affordable acres
+All scenario math is handled by the budget planner script. Do not do
+arithmetic yourself — run the script and interpret the output.
 
-Steps:
-1. Pull cash rent benchmark for the target county and quality tier:
-   `python3 scripts/run_rental.py --county "COUNTY" --quality QUALITY`
-   Use the average rate as the rent input.
+```bash
+python3 scripts/run_budget.py \
+  --budget BUDGET \
+  --county "COUNTY" \
+  --crop CROP \
+  --intent [rent|buy|both] \
+  --quality [high|medium|low]
+```
 
-2. Run the crop margin for that county:
-   `python3 scripts/run_margin.py --crop CROP --acres ACRES --county "COUNTY"`
+Optional flags:
+  --interest-rate     Annual rate for buying (default 0.065 — commercial estimate)
+  --down-payment-pct  Down payment fraction (default 0.20)
+  --property-tax      $/acre/year (default 12.0 — Iowa average)
+  --cap-rate          Land valuation cap rate (default 0.035)
 
-3. Compute affordable acres: Budget ÷ rent per acre (round down to whole acres)
+If the farmer qualifies as a beginning farmer (years_farming < 10), use the
+FSA Farm Loan rate instead of the commercial default. Ask the farmer or check
+memory for their interest rate if they know it, then pass it via --interest-rate.
 
-4. Compute total season profit: net margin per acre × affordable acres
-
-Build at least two scenarios to show the trade-off clearly. Default contrasts:
-- High-quality ground in same county (fewer acres, better margin per acre)
-- Medium-quality ground in same county (more acres, thinner margin per acre)
-- If farmer is open to geography: same quality in a cheaper county (more acres)
-- Corn vs. soybeans on the same ground (different margin profile, same acres)
-
-### For a buying decision
-
-Buying ties up capital as a down payment rather than annual rent. The annual
-cost is different — use interest instead of rent.
-
-Assumptions (cite these explicitly):
-- Iowa farmland trades at roughly 3–4% cap rate on rent income
-- Estimated land value = County average rent ÷ 0.035 (midpoint cap rate)
-- Down payment assumption: 20–30% (ask the farmer what they have or assume 20%)
-- Annual interest cost = (Land value − Down payment) × interest rate
-  Use current FSA Farm Loan rate if farmer qualifies as beginning farmer
-  (check years_farming in memory — under 10 years = likely eligible)
-  Otherwise use 6.5% as a commercial rate estimate
-- Property tax: estimate $12/acre (Iowa average; note this varies by CSR2)
-
-Affordable acres (buying) = Down payment budget ÷ (Land value × 0.20)
-
-Annual cost per acre = Interest per acre + Property tax per acre
-Net margin = (Yield × Price) − Production cost − Annual cost per acre
-
-Always flag: buying builds equity over time, renting does not. A scenario
-that looks worse annually may win over 10 years. ABE surfaces this, does
-not resolve it.
+Build at least two scenarios to show a trade-off. Default contrasts:
+- medium-quality ground, rent vs. buy in same county (use --intent both)
+- high vs. medium quality in same county (run twice, compare affordable acres)
+- same quality, different county (if farmer is open to geography)
+- corn vs. soybeans on same ground (run twice with different --crop)
 
 ### For other crops
 
-If the farmer mentions crops other than corn or soybeans (oats, alfalfa,
-cover crops, specialty crops):
-- ABE cannot run the margin simulator for those crops
-- Instead, pull from the knowledge base:
+If the farmer mentions crops other than corn or soybeans:
+- The script cannot run those — say so plainly
+- Pull from the knowledge base:
   `gno ask "production cost and margin for [crop] in Iowa" --answer -c abe-knowledge`
-- If no result, say so clearly and direct them to ISU Extension or their
-  local FSA office for cost-of-production data
-- Build the scenario manually using whatever numbers the farmer provides,
-  and cite that they are the farmer's own estimates
+- If no result, direct them to ISU Extension or their local FSA office
+- If they provide their own cost numbers, walk through the math manually
+  and make clear the numbers are the farmer's own estimates, not benchmarked
 
 ---
 

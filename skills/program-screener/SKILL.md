@@ -99,3 +99,34 @@ decide for themselves whether they fit.
 Name the specific office or resource: the local FSA office, the local
 NRCS office, or a specific ISU Extension file number. Do not just say
 "contact your local office" — say which one and what to ask for.
+
+---
+
+## Verbose Reasoning
+
+When verbose mode is active, narrate these steps out loud before and
+during the screening, in plain English the farmer can follow:
+
+**Before starting:**
+> "You asked about [program or programs]. Before I get into the criteria,
+> let me check what I already know about your situation — things like how
+> long you've been farming and your county can change which programs you
+> might qualify for. [If memory has relevant info: I've got some of that
+> from when we talked before.] [If memory is missing info: I may need to
+> ask you one or two things as we go.] Let me start with the program that
+> looks most relevant to what you asked."
+
+**When working through eligibility criteria:**
+> "The main gate for this one is [criterion]. [State what you know about
+> the farmer's situation.] That either puts you in range or it doesn't —
+> let me work through that before we go any further."
+
+**When a piece of information is missing:**
+> "I need one more piece of information before I can say whether this one
+> applies to you — [explain what and why, in plain terms]."
+
+**When cross-referencing multiple programs:**
+> "I'm looking at a few different programs here that might fit your
+> situation. I want to go through them one at a time so we don't mix up
+> the criteria — they each have different rules and different places you'd
+> need to go to apply."

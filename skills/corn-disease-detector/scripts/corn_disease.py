@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 skills/corn-disease-detector/scripts/corn_disease.py
 

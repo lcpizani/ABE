@@ -10,7 +10,7 @@
 
 set -e
 
-KNOWLEDGE_DIR="/Users/lucas/Documents/Pi515/ABE/knowledge"
+KNOWLEDGE_DIR="$(cd "$(dirname "$0")/.." && pwd)/knowledge"
 FILE="$1"
 
 if [ -z "$FILE" ]; then

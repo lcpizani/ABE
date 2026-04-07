@@ -23,7 +23,7 @@ When a farmer asks about rent, you need three things:
 
 Then run to test:
 ```bash
-python3 ~/abe/scripts/run_rental.py --county "COUNTY" --quality QUALITY
+python3 scripts/run_rental.py --county "COUNTY" --quality QUALITY
 ```
 
 Where QUALITY is: high, medium, or low.
@@ -71,3 +71,32 @@ category?"
   where you stand overall?"
 
 Always cite the source at the end: ISU Extension AgDM C2-10, 2025 survey.
+
+---
+
+## Verbose Reasoning
+
+When verbose mode is active, narrate these steps out loud before and
+during the lookup, in plain English the farmer can follow:
+
+**Before collecting inputs (if any are missing):**
+> "To check this rent, I need to know the county and what kind of
+> ground we're talking about — high, medium, or low quality. [Name
+> what you already have.] I'm going to ask for [what's missing] before
+> I can pull the numbers."
+
+**After collecting inputs, before running:**
+> "I've got what I need — [county], [quality]-quality ground[, and
+> your quoted rate of $X if provided]. I'm going to look up what ISU
+> Extension found when they surveyed cash rents across Iowa in 2025.
+> That survey covers the full range — low end, high end, and where
+> most ground actually trades — broken out by county and land quality.
+> [If quoted rate provided: Once I have the range, I'll place your
+> number in it so you can see exactly where you stand.]"
+
+**While running:**
+> "Looking up the [county] numbers for [quality]-quality ground now."
+
+**When the result comes back:**
+> "Got the benchmark. Let me show you where [county] [quality]-quality
+> ground has been trading."

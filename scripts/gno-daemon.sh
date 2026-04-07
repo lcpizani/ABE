@@ -9,7 +9,7 @@
 #   bash scripts/gno-daemon.sh logs     # Tail the log
 
 PLIST="$HOME/Library/LaunchAgents/com.abe.gno-daemon.plist"
-LOG="/Users/lucas/Documents/Pi515/ABE/logs/gno-daemon.log"
+LOG="$(cd "$(dirname "$0")/.." && pwd)/logs/gno-daemon.log"
 
 case "$1" in
   start)

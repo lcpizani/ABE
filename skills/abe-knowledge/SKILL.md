@@ -6,9 +6,12 @@ description: >
   EQIP conservation cost-share, ARC-CO vs PLC program selection, Iowa
   Beginning Farmer Tax Credit and Loan Program, Iowa Loan Participation
   Program, cash rent calculation methods, flexible lease agreements,
-  and farmland financing options. Use when a farmer asks about government
-  programs, loan eligibility, conservation cost-share, farm bill programs,
-  lease agreements, or any policy question needing a sourced answer.
+  farmland financing options, and corn disease management (northern blight,
+  southern blight, common rust, grey leaf spot, lethal necrosis, streak
+  virus). Use when a farmer asks about government programs, loan eligibility,
+  conservation cost-share, farm bill programs, lease agreements, any policy
+  question needing a sourced answer, or after a corn disease diagnosis to
+  retrieve management and treatment advice.
   Do NOT use for crop margin calculations or rent benchmarks — those
   use the SQLite database skills.
 ---
@@ -29,6 +32,8 @@ Search the knowledge base before answering any question about:
 - Lease negotiation and what to include in a written lease
 - Building a farm resume for a landlord
 - Farmland financing options for beginning farmers
+- Corn disease management and treatment: northern blight, southern blight,
+  common rust, grey leaf spot, lethal necrosis, streak virus
 
 ## How to search
 

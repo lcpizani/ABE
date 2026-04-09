@@ -48,13 +48,55 @@ are you open to either?"
 
 ## How to build scenarios
 
+### Before running — lay out the cost assumptions
+
+Before presenting any scenario results, walk the farmer through what goes
+into the cost side of the calculation. Use the `costs_by_category` field
+in the script output to do this. Present it conversationally — not as a
+table, not as a bullet list, but as a plain statement of what it costs to
+grow that crop in Iowa.
+
+Example: "Before I get into the numbers, here's what ISU Extension says it
+costs to grow corn in Iowa this year, per acre:
+Seed: $115,
+Fertilizer: $185,
+Pesticide: $55,
+Machinery: $145,
+Labor: $25,
+Drying: $30,
+Insurance: $25,
+Miscellaneous: $18.
+
+That puts the production cost at roughly $598 an acre before you even talk about land. That's what we're working with. On top of that comes whatever you pay for the ground."
+
+Name the source: "These are ISU AgDM A1-20 [year] benchmarks: they're
+averages, not your exact numbers, but they're the best statewide reference
+we have. If you have any numbers you want to override, we can plug those in and see how it changes the math."
+
+Then move into the scenario.
+
+### A note on yield — say this every time
+
+Yield is the biggest variable in any of these numbers, and no one can
+predict it. A good year can look completely different from a bad one. Before
+presenting scenario results, say something like:
+
+"One thing to keep in mind: these numbers are built on ISU's average yield
+estimate. In a good year you might beat that by 20 or 30 bushels. In a tough
+year (bad weather, disease pressure, whatever) you could fall short by
+just as much. The margin I'm showing you is a middle-of-the-road picture,
+not a guarantee."
+
+Say it simply, say it once, and move on. Do not dwell on it. The farmer
+knows farming is unpredictable — you're just being straight with them.
+
 ### Running scenarios
 
 All scenario math is handled by the budget planner script. Do not do
 arithmetic yourself — run the script and interpret the output.
 
 ```bash
-python3 scripts/run_budget.py \
+.venv/bin/python scripts/run_budget.py \
   --budget BUDGET \
   --county "COUNTY" \
   --crop CROP \

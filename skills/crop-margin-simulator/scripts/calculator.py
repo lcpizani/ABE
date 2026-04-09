@@ -10,7 +10,7 @@ How the calculation works
 Step 1 — Load ISU production costs from abe.db
     SELECT category, cost_per_acre FROM crop_costs WHERE crop = ?
     Costs are seeded from ISU Extension "Estimated Costs of Crop Production
-    in Iowa" (A1-20, 2024) and cover seed, fertilizer, chemicals, machinery,
+    in Iowa" (A1-20, 2026) and cover seed, fertilizer, chemicals, machinery,
     drying, insurance, and overhead — everything except land rent.
 
 Step 2 — Apply farmer cost overrides (optional)
@@ -49,17 +49,20 @@ DB_PATH = Path(__file__).parent.parent.parent.parent / "data" / "abe.db"
 ALLOWED_CROPS = {"corn", "soybeans"}
 
 # ISU benchmark assumptions used for the comparison column.
-# Source: ISU Extension "Estimated Costs of Crop Production in Iowa" (2024).
+# Source: ISU AgDM A1-20, January 2026.
+# Yields: CFS 211 bu/acre, HT soybeans 61 bu/acre (middle tier).
+# Rental rate: $274/acre (2026 A1-20 middle tier).
+# Prices are placeholder benchmarks only — live prices come from USDA APIs.
 ISU_BENCHMARK = {
     "corn": {
-        "yield_bu": 200.0,
-        "price_per_bu": 4.50,
-        "rental_rate": 230.0,
+        "yield_bu": 211.0,
+        "price_per_bu": 4.35,
+        "rental_rate": 274.0,
     },
     "soybeans": {
-        "yield_bu": 55.0,
-        "price_per_bu": 11.50,
-        "rental_rate": 230.0,
+        "yield_bu": 61.0,
+        "price_per_bu": 9.80,
+        "rental_rate": 274.0,
     },
 }
 
@@ -148,10 +151,12 @@ def calculate_margin(
             """
             SELECT category, cost_per_acre, year, source
             FROM crop_costs
-            WHERE crop = ?
+            WHERE crop = ? AND year = (
+                SELECT MAX(year) FROM crop_costs WHERE crop = ?
+            )
             ORDER BY category
             """,
-            (crop,),
+            (crop, crop),
         ).fetchall()
 
     if not rows:

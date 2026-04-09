@@ -20,22 +20,29 @@ DB_PATH = Path(__file__).parent.parent / "data" / "abe.db"
 
 ROWS = [
     {
+        # Corn Following Soybeans, 211 bu/acre middle tier.
+        # Fixed includes: preharvest machinery + harvest machinery + labor + land.
+        # Variable includes: seed, fertilizer, herbicide, insurance, misc,
+        #   interest on preharvest, and harvest variable costs (incl. drying).
+        # Source: ISU AgDM A1-20, January 2026, Table 2 (page 3).
         "crop":                    "corn",
         "region":                  "iowa_statewide",
-        "variable_cost_per_acre":  478.00,
-        "fixed_cost_per_acre":     287.00,
-        "expected_yield_bu":       202.0,
-        "price_source":            "ISU AgDM A1-20 2024",
-        "year":                    2024,
+        "variable_cost_per_acre":  483.60,
+        "fixed_cost_per_acre":     428.38,
+        "expected_yield_bu":       211.0,
+        "price_source":            "ISU AgDM A1-20 2026",
+        "year":                    2026,
     },
     {
+        # Herbicide-Tolerant Soybeans Following Corn, 61 bu/acre middle tier.
+        # Source: ISU AgDM A1-20, January 2026, Table 4 (page 5).
         "crop":                    "soybeans",
         "region":                  "iowa_statewide",
-        "variable_cost_per_acre":  294.00,
-        "fixed_cost_per_acre":     247.00,
-        "expected_yield_bu":       54.0,
-        "price_source":            "ISU AgDM A1-20 2024",
-        "year":                    2024,
+        "variable_cost_per_acre":  290.21,
+        "fixed_cost_per_acre":     388.90,
+        "expected_yield_bu":       61.0,
+        "price_source":            "ISU AgDM A1-20 2026",
+        "year":                    2026,
     },
 ]
 

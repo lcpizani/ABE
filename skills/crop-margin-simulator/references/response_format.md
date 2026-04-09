@@ -28,7 +28,16 @@ Do not call it a "challenge" or "difficult environment." Say the operation loses
 Example:
 - "At these prices you're losing about $15 an acre. Corn would need to get to around $4.60 to cover costs at your rent level."
 
-**5. Close with one offer.**
+**5. Name the yield uncertainty.**
+Before the closing offer, acknowledge what the model cannot know:
+
+"One thing worth saying — that yield is based on the ISU average. A good
+year could put you ahead of that; a bad one could pull you back. This is
+a reasonable middle estimate, not a guarantee either way."
+
+One to two sentences. Say it, move on.
+
+**6. Close with one offer.**
 One sentence. Give them a natural next move.
 
 Examples:

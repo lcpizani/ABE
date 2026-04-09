@@ -33,9 +33,9 @@ send a message. See Heartbeat section below.
 ## Running the skill
 
 ```bash
-python3 scripts/run_weather.py --mode history  --county "COUNTY" --days N
-python3 scripts/run_weather.py --mode forecast --county "COUNTY"
-python3 scripts/run_weather.py --mode alerts   --county "COUNTY"
+.venv/bin/python scripts/run_weather.py --mode history  --county "COUNTY" --days N
+.venv/bin/python scripts/run_weather.py --mode forecast --county "COUNTY"
+.venv/bin/python scripts/run_weather.py --mode alerts   --county "COUNTY"
 ```
 
 County can be bare ("Story") or with suffix ("Story County") — both work.

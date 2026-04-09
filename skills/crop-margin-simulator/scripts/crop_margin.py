@@ -48,7 +48,7 @@ from calculator import calculate_margin         # noqa: E402
 DATA_DIR            = ROOT / "data"          # ABE/data/  — all databases live here
 ABE_DB              = DATA_DIR / "abe.db"    # A1-20 aggregate costs (seeded by scripts/seed_costs.py)
 ISU_BASELINE        = {"corn": 4.35, "soybeans": 9.80}
-DEFAULT_RENTAL_RATE = 230.0   # ISU Extension Iowa statewide average (2024)
+DEFAULT_RENTAL_RATE = 274.0   # ISU A1-20 2026 middle-tier cash rent equivalent
 
 _CASH_LABEL = {"corn": "corn_cash_iowa",  "soybeans": "soybean_cash_iowa"}
 _NASS_LABEL = {"corn": "corn_price_iowa", "soybeans": "soybean_price_iowa"}
@@ -162,7 +162,8 @@ def run_crop_margin(
         conn.row_factory = sqlite3.Row
         row = conn.execute(
             "SELECT expected_yield_bu, year "
-            "FROM a1_20_costs WHERE crop = ? AND region = 'iowa_statewide'",
+            "FROM a1_20_costs WHERE crop = ? AND region = 'iowa_statewide' "
+            "ORDER BY year DESC LIMIT 1",
             (crop,),
         ).fetchone()
 
@@ -210,6 +211,7 @@ def run_crop_margin(
         "yield_bu_per_acre":        result.yield_bu,
         "year":                     result.data_year,
         "farmer_cost_overrides":    result.farmer_cost_overrides,
+        "costs_by_category":        result.costs_by_category,
     }
 
 

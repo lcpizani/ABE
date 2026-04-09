@@ -23,7 +23,7 @@ When a farmer asks about rent, you need three things:
 
 Then run to test:
 ```bash
-python3 scripts/run_rental.py --county "COUNTY" --quality QUALITY
+.venv/bin/python scripts/run_rental.py --county "COUNTY" --quality QUALITY
 ```
 
 Where QUALITY is: high, medium, or low.

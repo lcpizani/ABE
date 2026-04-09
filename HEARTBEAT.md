@@ -27,6 +27,29 @@ Example message format:
 
 ---
 
+---
+
+## Daily Price Check
+
+Every weekday, check whether Iowa cash prices moved significantly and alert
+farmers if so.
+
+Steps:
+1. Run: python3 scripts/run_prices.py
+2. Parse the JSON output
+3. If any_significant == true, message every farmer whose crops field is non-empty
+4. Report only the commodities that moved significantly
+5. Keep it short — one sentence per commodity, include direction and amount
+
+Example message format:
+  "Corn cash dropped 12¢ today to $4.08/bu — worth keeping an eye on."
+  "Soybeans up 8¢ to $10.88/bu at Iowa elevators today."
+
+Do not message farmers if any_significant == false.
+Do not send on weekends (Saturday/Sunday).
+
+---
+
 ## Notes
 
 - Run at a consistent daily time (e.g. 7:00 AM local time)

@@ -105,6 +105,7 @@ def rent_scenario(budget: float, county_row: dict, crop: str, quality: str) -> d
         "season_profit_total":      round(season_profit, 2),
         "cost_source":          margin_result["cost_source"],
         "rent_source":          f"{county_row['source']} {county_row['year']}",
+        "costs_by_category":    margin_result["costs_by_category"],
     }
 
 
@@ -176,6 +177,7 @@ def buy_scenario(
         "cost_source":              margin_result["cost_source"],
         "rent_benchmark_for_valuation": rent,
         "rent_source":              f"{county_row['source']} {county_row['year']}",
+        "costs_by_category":        margin_result["costs_by_category"],
         "note": (
             "Buying builds equity over time — annual margin alone does not capture "
             "the full return. Land appreciation and loan paydown are not included here."

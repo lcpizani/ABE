@@ -37,46 +37,64 @@ Mentioning numbers is not a request for analysis.
 Collect missing inputs one question at a time. Never ask more than one
 question per message.
 
-## Before running — ask about input costs
+## Before running — two paths
 
-Once you have crop, acres, and county, ask this before calling the tool:
+### Path A: cost-of-production was already run this conversation
+
+Skip the cost questions — you already have that data. The only thing left to collect is:
+- The farmer's actual cash rent (if not already captured)
+
+Run the margin simulator immediately after confirming rent. Use `--rent` to pass the farmer's
+actual rate. Do not re-ask about input costs.
+
+### Path B: cost-of-production was NOT run
+
+Once you have crop, acres, and county, ask exactly this before running:
 
 > "Do any of your input costs run significantly different from average —
 > seed, fertilizer, that kind of thing? Or should I just run it on ISU
 > benchmarks?"
 
-If the farmer says no or tells you to just run it — proceed with ISU defaults.
-If they mention specific numbers, capture those as `farmer_costs` and run with them.
-If they mention a cost difference without a number (e.g. "I make my own fertilizer"),
-ask for the $/acre before running.
+If the farmer says no — proceed with ISU defaults.
+If they give numbers, capture them as `--farmer-cost` overrides.
+If they mention a cost difference without a number, ask for the $/acre before running.
 
-This is the one question you ask about costs. Do not follow up with a full
-category-by-category breakdown.
+Also ask for the farmer's cash rent if not already known. Always pass it via `--rent`.
+If the farmer does not know their rent, use the ISU default (omit `--rent` from the command).
+
+This is the one question you ask about costs. Do not do a full category-by-category breakdown.
 
 ## Running the calculation
 
-This skill is invoked through the `crop_margin_simulator` tool, which calls
-`run_crop_margin()` in `skills/crop-margin-simulator/scripts/crop_margin.py`.
+Run this command via exec:
 
-Required inputs:
-- `crop` — `"corn"` or `"soybeans"`
-- `acres` — number
-- `county` — Iowa county name (e.g. `"Story County"`)
+```
+.venv/bin/python scripts/run_margin.py --crop CROP --acres N --county "COUNTY" --rent R [--price P] [--farmer-cost KEY=VALUE ...]
+```
+
+Required:
+- `--crop` — `corn` or `soybeans`
+- `--acres` — number
+- `--county` — Iowa county name (e.g. `"Story County"`)
+
+Strongly recommended:
+- `--rent` — farmer's actual cash rent per acre. Always pass this when known.
+  Omit only if the farmer genuinely does not know their rent (script defaults to ISU statewide average $274/acre).
 
 Optional:
-- `price_override` — $/bu. Omit to use live USDA data.
-- `farmer_costs` — dict of `{category: actual_$/acre}` for any input the farmer
-  knows what they pay. Pass the farmer's real number — the skill computes the
-  delta vs. the ISU benchmark automatically.
-  Corn: `seed`, `fertilizer`, `pesticide`, `machinery`, `labor`, `drying`,
-  `crop_insurance`, `miscellaneous`.
-  Soybeans: same except no `drying`.
-  Unknown categories are ignored.
+- `--price` — $/bu override. Omit to use live USDA data.
+- `--farmer-cost KEY=VALUE` — farmer's actual $/acre for any aggregate input category. Repeatable.
+  These are AGGREGATE categories — different from cost-of-production's granular line items.
+  Corn:     `seed`, `fertilizer`, `pesticide`, `machinery`, `labor`, `drying`, `crop_insurance`, `miscellaneous`
+  Soybeans: same except no `drying`
+  Unknown keys are ignored.
 
-The function returns a dict with 12 keys:
+Do not read the script or inspect its source. Just run the command with the parameters collected from the farmer.
+
+The output JSON has 13 keys:
 `crop`, `county`, `acres`, `price_per_bu`, `price_source`,
 `gross_revenue`, `total_cost`, `net_margin`, `cost_source`,
-`yield_bu_per_acre`, `year`, `farmer_cost_overrides`.
+`yield_bu_per_acre`, `year`, `rental_rate_used`, `farmer_cost_overrides`, `costs_by_category`.
 
 `farmer_cost_overrides` is a dict of `{category: {farmer_cost, isu_cost, savings_per_acre}}`
 — use it to tell the farmer how each override compared to the ISU benchmark.

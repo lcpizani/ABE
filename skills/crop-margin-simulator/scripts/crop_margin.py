@@ -120,6 +120,7 @@ def run_crop_margin(
     county: str,
     price_override: float = None,
     farmer_costs: Optional[dict] = None,
+    rental_rate: Optional[float] = None,
 ) -> dict:
     """
     Estimate net margin for an Iowa corn or soybean operation.
@@ -133,9 +134,11 @@ def run_crop_margin(
                       farmer's real $/acre for any input they know. The delta
                       vs. the ISU benchmark is computed inside calculate_margin.
                       Unknown categories are ignored.
+        rental_rate:  Farmer's actual cash rent per acre. Defaults to the ISU
+                      A1-20 statewide average ($274/acre) if not provided.
 
     Returns:
-        Dict with 12 keys:
+        Dict with 13 keys:
             crop, county, acres, price_per_bu, price_source,
             gross_revenue, total_cost, net_margin,
             cost_source, yield_bu_per_acre, year,
@@ -189,7 +192,7 @@ def run_crop_margin(
         acres=acres,
         yield_bu=expected_yield,
         price_per_bu=price,
-        rental_rate=DEFAULT_RENTAL_RATE,
+        rental_rate=rental_rate if rental_rate is not None else DEFAULT_RENTAL_RATE,
         farmer_costs=farmer_costs,
     )
 
@@ -199,19 +202,20 @@ def run_crop_margin(
     # The multiplications below are unit conversions only — all underlying
     # financial math was performed inside calculate_margin().
     return {
-        "crop":              result.crop,
-        "county":            county,
-        "acres":             result.acres,
-        "price_per_bu":      result.price_per_bu,
-        "price_source":      price_source,
-        "gross_revenue":     round(result.gross_revenue_per_acre * result.acres, 2),
-        "total_cost":        round(result.total_cost_per_acre    * result.acres, 2),
-        "net_margin":        result.net_margin_total,
-        "cost_source":              result.source,
-        "yield_bu_per_acre":        result.yield_bu,
-        "year":                     result.data_year,
-        "farmer_cost_overrides":    result.farmer_cost_overrides,
-        "costs_by_category":        result.costs_by_category,
+        "crop":                  result.crop,
+        "county":                county,
+        "acres":                 result.acres,
+        "price_per_bu":          result.price_per_bu,
+        "price_source":          price_source,
+        "gross_revenue":         round(result.gross_revenue_per_acre * result.acres, 2),
+        "total_cost":            round(result.total_cost_per_acre    * result.acres, 2),
+        "net_margin":            result.net_margin_total,
+        "cost_source":           result.source,
+        "yield_bu_per_acre":     result.yield_bu,
+        "year":                  result.data_year,
+        "rental_rate_used":      result.rental_rate,
+        "farmer_cost_overrides": result.farmer_cost_overrides,
+        "costs_by_category":     result.costs_by_category,
     }
 
 

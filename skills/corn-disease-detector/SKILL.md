@@ -35,12 +35,16 @@ No other inputs are required. The model handles the rest.
 
 ## Running the detection
 
-This skill is invoked through the `corn_disease_check` tool, which calls
-`run_corn_disease_check()` in
-`skills/corn-disease-detector/scripts/corn_disease.py`.
+Run this command via exec:
+
+```
+.venv/bin/python skills/corn-disease-detector/scripts/corn_disease.py IMAGE_PATH
+```
 
 Required input:
-- `image_path` — local filesystem path to the downloaded image (.jpg or .png)
+- `IMAGE_PATH` — local filesystem path to the downloaded image (.jpg or .png)
+
+Do not read the script or inspect its source. Just run the command with the image path.
 
 The function returns a plain-language string directly suitable for the farmer.
 It handles three cases internally:

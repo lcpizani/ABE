@@ -35,16 +35,22 @@ with open(os.path.join(BASE_DIR, "meta_data.json")) as f:
     }
 
 _device = torch.device("cpu")
-_model = CornCNN2(number_classes=len(INDEX_TO_LABEL))
-_model.load_state_dict(
-    torch.load(
-        os.path.join(BASE_DIR, "parameters.pth"),
-        map_location=_device,
-        weights_only=True,
+_model = None
+_model_load_error = None
+
+try:
+    _model = CornCNN2(number_classes=len(INDEX_TO_LABEL))
+    _model.load_state_dict(
+        torch.load(
+            os.path.join(BASE_DIR, "parameters.pth"),
+            map_location=_device,
+            weights_only=True,
+        )
     )
-)
-_model.to(_device)
-_model.eval()
+    _model.to(_device)
+    _model.eval()
+except Exception as _e:
+    _model_load_error = str(_e)
 
 _transform = transforms.Compose([
     transforms.Resize((256, 256)),
@@ -103,6 +109,12 @@ def run_corn_disease_check(image_path: str) -> str:
     Returns:
         A plain-language string suitable for sending directly to a farmer via Telegram.
     """
+    if _model is None:
+        return (
+            "The disease detection model isn't available right now. "
+            f"(Error: {_model_load_error}) — contact your county extension office for help identifying the issue."
+        )
+
     try:
         image = Image.open(image_path).convert("RGB")
     except Exception as e:

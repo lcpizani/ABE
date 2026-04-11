@@ -62,16 +62,17 @@ def parse_acres(value: str) -> float | None:
     return float(nums[0]) if nums else None
 
 
-def parse_crop(value: str) -> str | None:
-    """Return 'corn' or 'soybeans', preferring corn if both present."""
+def parse_crops(value: str) -> list[str]:
+    """Return all crops found in the value string."""
     if not value:
-        return None
+        return []
     low = value.lower()
+    crops = []
     if "corn" in low:
-        return "corn"
+        crops.append("corn")
     if "soy" in low:
-        return "soybeans"
-    return None
+        crops.append("soybeans")
+    return crops
 
 
 def parse_county(value: str) -> str | None:
@@ -97,49 +98,52 @@ if __name__ == "__main__":
     for fpath in farmer_files:
         farmer      = parse_farmer_frontmatter(fpath)
         telegram_id = farmer.get("telegram_id", "")
-        crop        = parse_crop(farmer.get("crops", ""))
+        crops       = parse_crops(farmer.get("crops", ""))
         acres       = parse_acres(farmer.get("acres", ""))
         county      = parse_county(farmer.get("county", ""))
 
-        if not crop or not acres or not county:
+        if not crops or not acres or not county:
             continue
 
-        try:
-            result = run_crop_margin(crop=crop, acres=acres, county=county)
-        except Exception as e:
-            print(f"  [WARN] Skipping {farmer.get('name', telegram_id)}: {e}", file=sys.stderr)
-            continue
+        for crop in crops:
+            cache_key = f"{telegram_id}:{crop}"
 
-        net_margin = result.get("net_margin")
-        if net_margin is None:
-            continue
+            try:
+                result = run_crop_margin(crop=crop, acres=acres, county=county)
+            except Exception as e:
+                print(f"  [WARN] Skipping {farmer.get('name', telegram_id)} ({crop}): {e}", file=sys.stderr)
+                continue
 
-        prev            = cache.get(telegram_id, {})
-        prev_net_margin = prev.get("net_margin")
-        was_profitable  = prev.get("is_profitable")
-        is_profitable   = net_margin >= 0
-        flipped         = was_profitable is not None and was_profitable != is_profitable
-        delta           = round(net_margin - prev_net_margin, 2) if prev_net_margin is not None else None
+            net_margin = result.get("net_margin")
+            if net_margin is None:
+                continue
 
-        results.append({
-            "telegram_id":     telegram_id,
-            "name":            farmer.get("name", ""),
-            "crop":            crop,
-            "county":          county,
-            "acres":           acres,
-            "net_margin":      round(net_margin, 2),
-            "prev_net_margin": prev_net_margin,
-            "delta":           delta,
-            "was_profitable":  was_profitable,
-            "is_profitable":   is_profitable,
-            "flipped":         flipped,
-        })
+            prev            = cache.get(cache_key, {})
+            prev_net_margin = prev.get("net_margin")
+            was_profitable  = prev.get("is_profitable")
+            is_profitable   = net_margin >= 0
+            flipped         = was_profitable is not None and was_profitable != is_profitable
+            delta           = round(net_margin - prev_net_margin, 2) if prev_net_margin is not None else None
 
-        new_cache[telegram_id] = {
-            "net_margin":    round(net_margin, 2),
-            "is_profitable": is_profitable,
-            "checked_at":    datetime.now().strftime("%Y-%m-%d"),
-        }
+            results.append({
+                "telegram_id":     telegram_id,
+                "name":            farmer.get("name", ""),
+                "crop":            crop,
+                "county":          county,
+                "acres":           acres,
+                "net_margin":      round(net_margin, 2),
+                "prev_net_margin": prev_net_margin,
+                "delta":           delta,
+                "was_profitable":  was_profitable,
+                "is_profitable":   is_profitable,
+                "flipped":         flipped,
+            })
+
+            new_cache[cache_key] = {
+                "net_margin":    round(net_margin, 2),
+                "is_profitable": is_profitable,
+                "checked_at":    datetime.now().strftime("%Y-%m-%d"),
+            }
 
     save_cache(new_cache)
     print(json.dumps(results, indent=2))

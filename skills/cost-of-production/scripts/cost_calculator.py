@@ -201,20 +201,6 @@ def _load_rows(crop: str, rotation: str, yield_tier: str) -> tuple[list, int, st
             (budget, year, yield_tier),
         ).fetchall()
 
-        # Also get the ISU expected yield for this tier from a1_20_costs (aggregate)
-        yield_row = conn.execute(
-            """
-            SELECT yield_value, year
-            FROM crop_production_costs
-            WHERE budget_type = ?
-              AND year = ?
-              AND yield_tier = ?
-              AND cost_item LIKE '%bu%'
-            LIMIT 1
-            """,
-            (budget, year, yield_tier),
-        ).fetchone()
-
     return [dict(r) for r in rows], year, "ISU AgDM A1-20"
 
 

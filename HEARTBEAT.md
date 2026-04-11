@@ -13,7 +13,7 @@ for every farmer with a known county and send an alert if conditions warrant.
 Steps:
 1. Read all files in memory/farmers/ — collect every farmer with a non-empty county field
 2. For each farmer, run:
-   python3 scripts/run_weather.py --mode alerts --county "COUNTY"
+   .venv/bin/python scripts/run_weather.py --mode alerts --county "COUNTY"
 3. If alert_count > 0, send the farmer a Telegram message with the alerts
 4. Lead with the most severe alert (high before medium)
 5. Keep it short — one or two sentences per alert, unprompted tone
@@ -35,7 +35,7 @@ Every weekday, check whether Iowa cash prices moved significantly and alert
 farmers if so.
 
 Steps:
-1. Run: python3 scripts/run_prices.py
+1. Run: .venv/bin/python scripts/run_prices.py
 2. Parse the JSON output
 3. If any_significant == true, message every farmer whose crops field is non-empty
 4. Report only the commodities that moved significantly

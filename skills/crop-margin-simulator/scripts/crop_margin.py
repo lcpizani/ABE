@@ -30,10 +30,11 @@ from typing import Optional
 # parents[1] = crop-margin-simulator/
 # parents[2] = skills/
 # parents[3] = ABE/  ← project root
-ROOT = Path(__file__).resolve().parents[3]
+ROOT        = Path(__file__).resolve().parents[3]
+SCRIPTS_DIR = Path(__file__).resolve().parent   # this scripts/ dir — for calculator.py
 
-sys.path.insert(0, str(ROOT))   # for scripts.nass_api
-# calculator.py lives in the same scripts/ directory — no extra path needed
+sys.path.insert(0, str(ROOT))        # for scripts.nass_api
+sys.path.insert(0, str(SCRIPTS_DIR)) # for calculator
 
 # ── Import existing modules — do not modify these files ───────────────────────
 from scripts.nass_api import (                          # noqa: E402

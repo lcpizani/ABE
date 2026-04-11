@@ -211,6 +211,7 @@ __marimo__/
 data/prices_cache.json
 data/mars_fallback.csv
 data/nass_fallback.csv
+data/margins_cache.json
 
 # macOS
 .DS_Store

@@ -212,6 +212,7 @@ data/prices_cache.json
 data/mars_fallback.csv
 data/nass_fallback.csv
 data/margins_cache.json
+data/crop_progress_fallback.csv
 
 # macOS
 .DS_Store

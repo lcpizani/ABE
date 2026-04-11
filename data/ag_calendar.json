@@ -72,10 +72,10 @@
     },
     {
       "id": "arc_plc_enrollment",
-      "date": "04-08",
+      "date": "04-01",
       "program": "ARC_PLC",
       "crops": ["corn", "soybeans"],
-      "lookahead_days": 7,
+      "lookahead_days": 14,
       "source": "USDA FSA — ARC/PLC enrollment runs January through April 15 annually",
       "message": "ARC-CO and PLC enrollment deadline is April 15. If you haven't signed up or want to switch between ARC and PLC for this crop year, contact your local FSA office before that date."
     },

@@ -16,6 +16,7 @@ Usage:
 """
 
 import os
+import re
 import csv
 import json
 import base64
@@ -408,8 +409,6 @@ def get_iowa_cash_prices(use_fallback_on_error: bool = True) -> list:
             "fetched_at":  "2026-03-28 14:30:00",
         }
     """
-    import re
-
     print("\nFetching: Iowa Daily Cash Grain Bids (USDA AMS MARS)")
 
     records = fetch_iowa_cash_prices()

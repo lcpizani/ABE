@@ -20,7 +20,8 @@ from pathlib import Path
 import urllib.request
 import urllib.parse
 
-COUNTIES_PATH = Path(__file__).parent.parent.parent.parent / "data" / "iowa_counties.json"
+COUNTIES_PATH    = Path(__file__).parent.parent.parent.parent / "data" / "iowa_counties.json"
+ALERTS_CACHE_PATH = Path(__file__).parent.parent.parent.parent / "data" / "alerts_sent_cache.json"
 
 ARCHIVE_URL  = "https://archive-api.open-meteo.com/v1/archive"
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
@@ -196,6 +197,19 @@ def run_forecast(county: str) -> dict:
 # MODE: alerts
 # ---------------------------------------------------------------------------
 
+def _load_alerts_cache() -> dict:
+    if ALERTS_CACHE_PATH.exists():
+        with open(ALERTS_CACHE_PATH) as f:
+            return json.load(f)
+    return {}
+
+
+def _save_alerts_cache(cache: dict) -> None:
+    ALERTS_CACHE_PATH.parent.mkdir(exist_ok=True)
+    with open(ALERTS_CACHE_PATH, "w") as f:
+        json.dump(cache, f, indent=2)
+
+
 def run_alerts(county: str) -> dict:
     alerts  = []
     history  = run_history(county, days=14)
@@ -274,12 +288,24 @@ def run_alerts(county: str) -> dict:
                     "severity": "high",
                 })
 
+    # --- Deduplicate: skip alerts already sent for the same county+type+date ---
+    county_key = normalize_county(county)
+    cache = _load_alerts_cache()
+    new_alerts = []
+    for alert in alerts:
+        cache_key = f"{county_key}:{alert['type']}:{alert['date']}"
+        if cache_key not in cache:
+            new_alerts.append(alert)
+            cache[cache_key] = str(date.today())
+
+    _save_alerts_cache(cache)
+
     return {
         "mode":        "alerts",
-        "county":      normalize_county(county),
+        "county":      county_key,
         "date":        str(date.today()),
-        "alerts":      alerts,
-        "alert_count": len(alerts),
+        "alerts":      new_alerts,
+        "alert_count": len(new_alerts),
     }
 
 

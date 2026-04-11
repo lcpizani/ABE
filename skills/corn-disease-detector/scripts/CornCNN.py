@@ -3,7 +3,7 @@ import torch.nn.functional as F
 
 
 class CornCNN2(nn.Module):
-    def __init__(self, number_classes: int = 4, drop: float = 0.3):
+    def __init__(self, number_classes: int = 6, drop: float = 0.3):
         super(CornCNN2, self).__init__()
         self.block1 = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, stride=1),

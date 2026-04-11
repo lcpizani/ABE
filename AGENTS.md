@@ -188,11 +188,11 @@ ABE routes to skills when the farmer asks, or after offering and receiving a yes
 
 3. Rental rate check: farmer asks if a quoted rent is fair, high, or low for their county → rental-rate-check skill, query cash_rent table in ~/abe/data/abe.db
 
-3. Program screener: farmer asks about FSA loans, EQIP, ARC/PLC, Iowa Beginning Farmer Tax Credit → program-screener skill
+4. Program screener: farmer asks about FSA loans, EQIP, ARC/PLC, Iowa Beginning Farmer Tax Credit → program-screener skill
 
-4. Corn disease detector: farmer sends a photo of a corn leaf, mentions spots, yellowing, or asks what is wrong with their crop → corn-disease-detector skill. After diagnosis, automatically run weather history (14 days) for the farmer's county.
+5. Corn disease detector: farmer sends a photo of a corn leaf, mentions spots, yellowing, or asks what is wrong with their crop → corn-disease-detector skill. After diagnosis, automatically run weather history (14 days) for the farmer's county.
 
-5. Weather: there are three triggers:
+6. Weather: there are three triggers:
    a. Automatic after any disease diagnosis → run history mode (14 days) for the farmer's county, connect weather to the diagnosis;
    b. Farmer asks about upcoming conditions or crop weather impact → run forecast mode, map to their crop and growth stage;
    c. Heartbeat daily check → run alerts mode for each farmer with a

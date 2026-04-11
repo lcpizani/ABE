@@ -78,13 +78,16 @@ def rent_scenario(budget: float, county_row: dict, crop: str, quality: str) -> d
             "minimum_budget_needed": rent,
         }
 
-    margin_result = run_crop_margin(crop=crop, acres=acres, county=county_row["county"])
+    # Pass the actual county rent so the margin calculation uses the correct land cost.
+    margin_result = run_crop_margin(
+        crop=crop, acres=acres, county=county_row["county"], rental_rate=rent
+    )
 
-    net_margin_per_acre = margin_result["net_margin"]
-    # net_margin from run_crop_margin already excludes rent via ISU cost benchmarks;
-    # we need to subtract rent explicitly as an additional land cost.
-    net_after_rent = net_margin_per_acre - rent
-    season_profit  = net_after_rent * acres
+    # net_margin is the operation total (per-acre × acres). Divide to get per-acre.
+    net_margin_per_acre = margin_result["net_margin"] / acres
+    season_profit       = margin_result["net_margin"]
+
+    production_cost_per_acre = sum(margin_result["costs_by_category"].values())
 
     return {
         "scenario":             "rent",
@@ -98,13 +101,14 @@ def rent_scenario(budget: float, county_row: dict, crop: str, quality: str) -> d
         "yield_bu_per_acre":    margin_result["yield_bu_per_acre"],
         "price_per_bu":         margin_result["price_per_bu"],
         "price_source":         margin_result["price_source"],
-        "gross_revenue_per_acre":   margin_result["gross_revenue"] / acres,
-        "production_cost_per_acre": (margin_result["total_cost"] / acres) - rent,
+        "gross_revenue_per_acre":   round(margin_result["gross_revenue"] / acres, 2),
+        "production_cost_per_acre": round(production_cost_per_acre, 2),
         "rent_per_acre_explicit":   rent,
-        "net_margin_per_acre":      round(net_after_rent, 2),
+        "net_margin_per_acre":      round(net_margin_per_acre, 2),
         "season_profit_total":      round(season_profit, 2),
         "cost_source":          margin_result["cost_source"],
         "rent_source":          f"{county_row['source']} {county_row['year']}",
+        "costs_by_category":    margin_result["costs_by_category"],
     }
 
 
@@ -142,12 +146,18 @@ def buy_scenario(
             "minimum_budget_needed":  round(down_payment, 0),
         }
 
-    margin_result = run_crop_margin(crop=crop, acres=acres, county=county_row["county"])
+    # For buying, pass rental_rate=0 so the margin reflects production costs only.
+    # Land holding cost (interest + property tax) is added explicitly below.
+    margin_result = run_crop_margin(
+        crop=crop, acres=acres, county=county_row["county"], rental_rate=0
+    )
 
-    net_margin_per_acre = margin_result["net_margin"]
-    # Buying replaces rent with financing + property tax as the land holding cost.
-    net_after_financing = net_margin_per_acre - annual_cost_per_acre
-    season_profit       = net_after_financing * acres
+    # net_margin is the operation total (per-acre × acres). Divide to get per-acre.
+    production_margin_per_acre = margin_result["net_margin"] / acres
+    net_after_financing        = production_margin_per_acre - annual_cost_per_acre
+    season_profit              = net_after_financing * acres
+
+    production_cost_per_acre = sum(margin_result["costs_by_category"].values())
 
     return {
         "scenario":                 "buy",
@@ -169,13 +179,14 @@ def buy_scenario(
         "yield_bu_per_acre":        margin_result["yield_bu_per_acre"],
         "price_per_bu":             margin_result["price_per_bu"],
         "price_source":             margin_result["price_source"],
-        "gross_revenue_per_acre":   margin_result["gross_revenue"] / acres,
-        "production_cost_per_acre": margin_result["total_cost"] / acres,
+        "gross_revenue_per_acre":   round(margin_result["gross_revenue"] / acres, 2),
+        "production_cost_per_acre": round(production_cost_per_acre, 2),
         "net_margin_per_acre":      round(net_after_financing, 2),
         "season_profit_total":      round(season_profit, 2),
         "cost_source":              margin_result["cost_source"],
         "rent_benchmark_for_valuation": rent,
         "rent_source":              f"{county_row['source']} {county_row['year']}",
+        "costs_by_category":        margin_result["costs_by_category"],
         "note": (
             "Buying builds equity over time — annual margin alone does not capture "
             "the full return. Land appreciation and loan paydown are not included here."

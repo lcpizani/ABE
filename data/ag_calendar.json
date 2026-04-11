@@ -1,0 +1,101 @@
+{
+  "_notes": "All dates verified against ISU Extension and USDA sources. See source field on each entry.",
+
+  "seasonal_milestones": [
+    {
+      "id": "corn_planting_window_opens",
+      "date": "04-11",
+      "crops": ["corn"],
+      "lookahead_days": 5,
+      "source": "ISU Extension ICM — optimal corn planting window is April 11 to May 18 for Iowa",
+      "message": "Prime corn planting window is opening up. ISU Extension puts the optimum window at April 11–May 18 statewide — soil temps above 50°F and rising is the real signal."
+    },
+    {
+      "id": "corn_planting_deadline",
+      "date": "05-10",
+      "crops": ["corn"],
+      "lookahead_days": 5,
+      "source": "ISU Extension ICM — yield drag accelerates after May 15, critical threshold May 15–20",
+      "message": "Corn planting window is tightening. ISU research shows yield drag accelerates after May 15 — roughly 0.5 bu/acre per day beyond that point. If you're not in the ground yet, the clock is running."
+    },
+    {
+      "id": "soybean_planting_window",
+      "date": "05-01",
+      "crops": ["soybeans"],
+      "lookahead_days": 5,
+      "source": "ISU Extension ICM — soybeans planted before May 20 avoid significant yield loss",
+      "message": "Soybean planting window is open. Most Iowa agronomists target early to mid-May for peak yields — planting before May 20 avoids the steepest yield drag."
+    },
+    {
+      "id": "corn_insurance_final_planting",
+      "date": "05-25",
+      "crops": ["corn"],
+      "lookahead_days": 7,
+      "source": "USDA RMA — Iowa corn final planting date is typically May 31 (varies by county, check RMA map viewer)",
+      "message": "Heads up — the final planting date for corn crop insurance coverage is coming up (typically May 31 in Iowa, varies by county). Corn planted after that date gets a reduced guarantee. Check with your crop insurance agent for your exact county deadline."
+    },
+    {
+      "id": "soybean_insurance_final_planting",
+      "date": "06-08",
+      "crops": ["soybeans"],
+      "lookahead_days": 7,
+      "source": "USDA RMA — Iowa soybean final planting date is typically June 15 (varies by county)",
+      "message": "The final planting date for soybean crop insurance coverage is coming up (typically June 15 in Iowa, varies by county). Beans planted after that get a reduced guarantee — confirm your exact date with your crop insurance agent."
+    },
+    {
+      "id": "corn_sidedress_window",
+      "date": "06-01",
+      "crops": ["corn"],
+      "lookahead_days": 5,
+      "source": "ISU Extension — sidedress nitrogen window is V4–V6 stage, typically 3–5 weeks after emergence",
+      "message": "Sidedress nitrogen window is coming up for corn — V4 to V6 stage, usually 3–5 weeks after emergence. If you're side-dressing, now's the time to confirm your applicator is scheduled."
+    },
+    {
+      "id": "harvest_prep",
+      "date": "09-10",
+      "crops": ["corn", "soybeans"],
+      "lookahead_days": 7,
+      "source": "General Iowa agronomic calendar",
+      "message": "Harvest season is a few weeks out. Good time to confirm elevator contracts, check storage availability, and make sure drying equipment is ready."
+    }
+  ],
+
+  "fsa_deadlines": [
+    {
+      "id": "crop_insurance_sales_closing",
+      "date": "03-08",
+      "program": "crop_insurance",
+      "crops": ["corn", "soybeans"],
+      "lookahead_days": 7,
+      "source": "USDA RMA 2026 — March 15 is a major sales closing date for spring-planted crops in Iowa",
+      "message": "Crop insurance sales closing date is March 15 for corn and soybeans in Iowa. After that date you can't buy or change coverage for this crop year. If you haven't talked to your agent yet, do it this week."
+    },
+    {
+      "id": "arc_plc_enrollment",
+      "date": "04-08",
+      "program": "ARC_PLC",
+      "crops": ["corn", "soybeans"],
+      "lookahead_days": 7,
+      "source": "USDA FSA — ARC/PLC enrollment runs January through April 15 annually",
+      "message": "ARC-CO and PLC enrollment deadline is April 15. If you haven't signed up or want to switch between ARC and PLC for this crop year, contact your local FSA office before that date."
+    },
+    {
+      "id": "eqip_iowa_cutoff",
+      "date": "10-03",
+      "program": "EQIP",
+      "crops": ["corn", "soybeans"],
+      "lookahead_days": 7,
+      "source": "Iowa NRCS — Iowa EQIP application cutoff is typically October 10",
+      "message": "Iowa NRCS sets its EQIP application cutoff around October 10. If you're interested in conservation practice funding for next year — cover crops, nutrient management, drainage — get your application in before then."
+    },
+    {
+      "id": "beginning_farmer_tax_credit",
+      "date": "07-25",
+      "program": "beginning_farmer_tax_credit",
+      "crops": ["corn", "soybeans"],
+      "lookahead_days": 7,
+      "source": "Iowa Finance Authority — August 1 application deadline, processed first-come first-completed",
+      "message": "Iowa Beginning Farmer Tax Credit applications are due August 1. If you're renting farmland from an Iowa landowner, your landlord may qualify for a 5–15% tax credit — worth mentioning to them if they don't know about it."
+    }
+  ]
+}

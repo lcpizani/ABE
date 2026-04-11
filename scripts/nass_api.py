@@ -503,6 +503,141 @@ def format_cash_prices_for_abe(results: list) -> str:
     return "\n".join(lines)
 
 
+# ── USDA NASS Weekly Crop Progress (Iowa) ────────────────────────────────────
+
+CROP_PROGRESS_FALLBACK_CSV = os.path.join(_DATA_DIR, "crop_progress_fallback.csv")
+
+_PROGRESS_QUERIES = [
+    {
+        "commodity": "corn",
+        "params": {
+            "commodity_desc":    "CORN",
+            "statisticcat_desc": "PROGRESS",
+            "state_alpha":       "IA",
+            "freq_desc":         "WEEKLY",
+            "source_desc":       "SURVEY",
+        },
+    },
+    {
+        "commodity": "soybeans",
+        "params": {
+            "commodity_desc":    "SOYBEANS",
+            "statisticcat_desc": "PROGRESS",
+            "state_alpha":       "IA",
+            "freq_desc":         "WEEKLY",
+            "source_desc":       "SURVEY",
+        },
+    },
+]
+
+
+def fetch_crop_progress_records(params: dict) -> list:
+    """
+    Fetch weekly crop progress records from NASS QuickStats.
+    Returns all records for the most recent year/week available.
+    """
+    query = {"key": API_KEY, "format": "json"}
+    query.update(params)
+    url = BASE_URL + "?" + urllib.parse.urlencode(query)
+
+    try:
+        with urllib.request.urlopen(url, timeout=15) as response:
+            raw = response.read().decode("utf-8")
+            data = json.loads(raw)
+    except Exception as e:
+        print(f"  [CROP PROGRESS ERROR] API call failed: {e}")
+        return []
+
+    records = data.get("data", [])
+    if not records:
+        print("  [CROP PROGRESS WARNING] No records returned.")
+        return []
+
+    # Find the most recent week_ending date
+    dated = [r for r in records if r.get("week_ending") and _is_numeric(r.get("Value", ""))]
+    if not dated:
+        return []
+
+    latest_week = max(dated, key=lambda r: r.get("week_ending", ""))["week_ending"]
+    return [r for r in dated if r.get("week_ending") == latest_week]
+
+
+def get_iowa_crop_progress(use_fallback_on_error: bool = True) -> list:
+    """
+    Fetch the most recent weekly crop progress report for Iowa corn and soybeans.
+
+    Returns a list of dicts, one per progress category per commodity:
+        {
+            "commodity":    "corn",
+            "week_ending":  "2026-05-11",
+            "category":     "PLANTED",
+            "value":        "62",
+            "unit":         "PCT OF ACREAGE",
+            "fetched_at":   "2026-05-12 08:00:00",
+        }
+
+    Falls back to CSV if the API is unavailable.
+    """
+    print("\nFetching: Iowa Weekly Crop Progress (USDA NASS)")
+
+    if API_KEY == "YOUR_NASS_API_KEY_HERE":
+        print("  [SKIP] NASS API key not set.")
+        if use_fallback_on_error:
+            return _load_crop_progress_fallback()
+        return []
+
+    results = []
+    api_failed = False
+
+    for query in _PROGRESS_QUERIES:
+        records = fetch_crop_progress_records(query["params"])
+        if not records:
+            api_failed = True
+            break
+
+        for r in records:
+            results.append({
+                "commodity":   query["commodity"],
+                "week_ending": r.get("week_ending", "N/A"),
+                "category":    r.get("short_desc", r.get("statisticcat_desc", "N/A")),
+                "value":       r.get("Value", "N/A").replace(",", ""),
+                "unit":        r.get("unit_desc", "N/A"),
+                "fetched_at":  datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            })
+            print(f"  ✅  {query['commodity'].capitalize()} — {r.get('short_desc')}: {r.get('Value')} {r.get('unit_desc')} ({r.get('week_ending')})")
+
+    if not api_failed and results:
+        _save_crop_progress_fallback(results)
+        return results
+
+    if use_fallback_on_error:
+        print("  [CROP PROGRESS FALLBACK MODE] Loading saved CSV...")
+        return _load_crop_progress_fallback()
+
+    return results
+
+
+def _save_crop_progress_fallback(results: list) -> None:
+    if not results:
+        return
+    fieldnames = ["commodity", "week_ending", "category", "value", "unit", "fetched_at"]
+    with open(CROP_PROGRESS_FALLBACK_CSV, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(results)
+    print(f"  [SAVED] Crop progress fallback CSV written to: {CROP_PROGRESS_FALLBACK_CSV}")
+
+
+def _load_crop_progress_fallback() -> list:
+    if not os.path.exists(CROP_PROGRESS_FALLBACK_CSV):
+        print("  [CROP PROGRESS FALLBACK ERROR] No fallback CSV found.")
+        return []
+    with open(CROP_PROGRESS_FALLBACK_CSV, newline="") as f:
+        rows = list(csv.DictReader(f))
+    print(f"  [CROP PROGRESS FALLBACK] Loaded {len(rows)} rows.")
+    return rows
+
+
 # ── Run directly from terminal ─────────────────────────────────────────────────
 
 if __name__ == "__main__":

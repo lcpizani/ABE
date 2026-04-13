@@ -2,61 +2,24 @@
 """
 skills/corn-disease-detector/scripts/corn_disease.py
 
-Skill entry point for corn leaf disease detection.
+ABE skill entry point for corn leaf disease detection.
 
-Loads the CornCNN2 model once at import time and exposes:
-  - run_corn_disease_check(image_path) -> str   plain-language diagnosis
-  - TOOL                                        Anthropic API tool definition
+Uses predict.py (the original model inference engine) for the raw classification
+and adds ABE-specific logic on top: confidence gating, farmer-facing advice,
+and the OpenClaw tool definition.
 
 Supported classes (from meta_data.json):
   0 Blight | 1 Common_Rust | 2 Grey_Leaf_Spot | 3 Healthy
   4 Lethal_Necrosis | 5 Streak_Virus
 """
 
-import json
 import os
 import sys
-
-import torch
-from PIL import Image
-from torchvision import transforms
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 
-from CornCNN import CornCNN2  # noqa: E402
-
-# ── Load once at import time ───────────────────────────────────────────────────
-
-with open(os.path.join(BASE_DIR, "meta_data.json")) as f:
-    _meta = json.load(f)
-    INDEX_TO_LABEL = {
-        int(k): v for k, v in _meta["mapping"].items() if int(k) != -1
-    }
-
-_device = torch.device("cpu")
-_model = None
-_model_load_error = None
-
-try:
-    _model = CornCNN2(number_classes=len(INDEX_TO_LABEL))
-    _model.load_state_dict(
-        torch.load(
-            os.path.join(BASE_DIR, "parameters.pth"),
-            map_location=_device,
-            weights_only=True,
-        )
-    )
-    _model.to(_device)
-    _model.eval()
-except Exception as _e:
-    _model_load_error = str(_e)
-
-_transform = transforms.Compose([
-    transforms.Resize((256, 256)),
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-])
+from predict import predict_image  # noqa: E402
 
 # ── Farmer-facing advice per class ────────────────────────────────────────────
 
@@ -109,28 +72,19 @@ def run_corn_disease_check(image_path: str) -> str:
     Returns:
         A plain-language string suitable for sending directly to a farmer via Telegram.
     """
-    if _model is None:
-        return (
-            "The disease detection model isn't available right now. "
-            f"(Error: {_model_load_error}) — contact your county extension office for help identifying the issue."
-        )
+    result = predict_image(image_path)
 
-    try:
-        image = Image.open(image_path).convert("RGB")
-    except Exception as e:
-        return (
-            "I wasn't able to open that photo. "
-            f"Try sending it again as a .jpg or .png file. (Error: {e})"
-        )
+    if result["error"]:
+        if result["label"] is None:
+            # Model failed to load or image couldn't be opened
+            return (
+                "I wasn't able to process that photo. "
+                f"(Error: {result['error']}) — try sending it again as a .jpg or .png, "
+                "or contact your county extension office for help."
+            )
 
-    tensor = _transform(image).unsqueeze(0).to(_device)
-
-    with torch.no_grad():
-        output, _ = _model(tensor)
-        probs = torch.softmax(output, dim=1)
-        confidence, pred_idx = torch.max(probs, dim=1)
-        label = INDEX_TO_LABEL.get(pred_idx.item(), "Unknown")
-        conf = confidence.item()
+    label = result["label"]
+    conf  = result["confidence"]
 
     if conf < CONFIDENCE_THRESHOLD:
         return (
@@ -145,7 +99,7 @@ def run_corn_disease_check(image_path: str) -> str:
     return f"{advice}\n\n_(Diagnosis: {label.replace('_', ' ')}, {conf * 100:.0f}% confidence)_"
 
 
-# ── Anthropic API tool definition ─────────────────────────────────────────────
+# ── OpenClaw tool definition ───────────────────────────────────────────────────
 
 TOOL = {
     "name": "corn_disease_check",
@@ -174,8 +128,6 @@ TOOL = {
 # ── Quick test ─────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import sys
-
     if len(sys.argv) < 2:
         print("Usage: python corn_disease.py <image_path>")
         sys.exit(1)

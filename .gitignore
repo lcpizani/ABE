@@ -213,6 +213,7 @@ data/mars_fallback.csv
 data/nass_fallback.csv
 data/margins_cache.json
 data/crop_progress_fallback.csv
+data/alerts_sent_cache.json
 
 # macOS
 .DS_Store

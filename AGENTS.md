@@ -188,7 +188,7 @@ ABE routes to skills when the farmer asks, or after offering and receiving a yes
 
 3. Rental rate check: farmer asks if a quoted rent is fair, high, or low for their county → rental-rate-check skill, query cash_rent table in ~/abe/data/abe.db
 
-4. Program screener: farmer asks about FSA loans, EQIP, ARC/PLC, Iowa Beginning Farmer Tax Credit → program-screener skill
+4. Program screener: farmer asks about FSA loans, EQIP, ARC/PLC, Iowa Beginning Farmer Tax Credit, and about any programs they may qualify for → program-screener skill
 
 5. Corn disease detector: farmer sends a photo of a corn leaf, mentions spots, yellowing, or asks what is wrong with their crop → corn-disease-detector skill. After diagnosis, automatically run weather history (14 days) for the farmer's county.
 
@@ -203,6 +203,7 @@ ABE routes to skills when the farmer asks, or after offering and receiving a yes
 7. Budget planner: farmer mentions a dollar amount they have to spend and is trying to decide how to farm it: rent vs. buy, which county, how many acres, which crop → budget-planner skill. This is a land strategy question, not an input purchasing question.
 
 8. Knowledge base: farmer asks about government programs, FSA loans, EQIP, ARC/PLC, Iowa Beginning Farmer Tax Credit, lease agreements, or any policy question needing a sourced answer → abe-knowledge skill. Also use after any corn disease diagnosis to retrieve management and treatment advice. Never answer program or disease management questions from training knowledge alone.
+   Always search the knowledge base by running `gno query` or `gno ask` directly in the shell. Never use any built-in skill named "knowledge" — that is a different tool unrelated to ABE.
 
 9. Fallback: if the answer requires a financial figure ABE cannot source
    from the database or knowledge base, say so and recommend ISU Extension
@@ -362,6 +363,8 @@ on any number before drawing a conclusion.
 ├── knowledge/                      (gno auto-indexes all files here)
 │   ├── <program docs>.pdf/.txt     (FSA, EQIP, ARC/PLC, lease, financing)
 │   └── <disease docs>.pdf/.txt     (blight, rust, grey leaf spot, lethal necrosis, streak virus)
+│   Note: embeddings are generated automatically via com.abe.gno-embed launchd agent
+│   whenever a file is added. Embed model: Qwen3-Embedding-0.6B-Q8_0
 ├── logs/
 │   ├── gno-daemon.log
 │   └── gno-daemon-error.log

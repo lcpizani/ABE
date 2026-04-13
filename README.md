@@ -53,6 +53,7 @@ ABE also runs **five automated heartbeat tasks** — daily price alerts, weekly 
 Full documentation is in [`docs/`](docs/README.md):
 
 - **[For Evaluators and Partners](docs/for-partners/README.md)** — what ABE covers, data sources, accuracy and limits
+- **[Competition Submission](docs/submission/README.md)** — problem statement, model development, evaluation, impact and feasibility
 - **[For Staff](docs/for-staff/README.md)** — deployment, knowledge base management, monitoring
 - **[For Developers](docs/for-developers/README.md)** — setup, architecture, skills reference, adding a skill
 - **[Reference](docs/reference/)** — environment variables, CLI commands, knowledge document index

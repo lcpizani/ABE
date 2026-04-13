@@ -57,7 +57,7 @@ Reads `data/ag_calendar.json`, which contains seasonal milestones and FSA deadli
 ```json
 [
   {
-    "telegram_id": "391847263",
+    "telegram_id": "000000001",
     "name": "Jake",
     "entry_id": "fsa-arc-plc-election",
     "program": "ARC-CO/PLC",
@@ -100,7 +100,7 @@ Loops through all farmer memory files in `memory/farmers/`. For farmers with cro
 ```json
 [
   {
-    "telegram_id": "391847263",
+    "telegram_id": "000000001",
     "name": "Jake",
     "crop": "corn",
     "county": "Linn County",

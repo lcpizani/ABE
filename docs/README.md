@@ -54,6 +54,13 @@ ABE does not make decisions for farmers. It surfaces real numbers with real sour
 
 ## Table of contents
 
+**Competition Submission**
+- [Submission Overview](submission/README.md)
+- [Problem and Solution](submission/problem-and-solution.md)
+- [Model Development](submission/model-development.md)
+- [How We Evaluated ABE](submission/evaluation.md)
+- [Impact and Feasibility](submission/impact-and-feasibility.md)
+
 **For Partners and Evaluators**
 - [For Partners — Overview](for-partners/README.md)
 - [What ABE Covers](for-partners/what-abe-covers.md)

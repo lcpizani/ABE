@@ -18,14 +18,14 @@ All secrets and API keys are stored in `.env` in the project root. This file is 
 
 ```dotenv
 # Anthropic Claude API key
-CLAUDE_TOKEN=sk-ant-api03-...
+CLAUDE_TOKEN=sk-...
 
 # USDA NASS QuickStats — used for annual crop prices/yields and weekly crop progress
-NASS_API_KEY=2AF8EF4B-AC8F-328B-9831-F5991F2EE2E7
+NASS_API_KEY=...
 
 # USDA AMS MyMarketNews (MARS) — used for daily Iowa cash prices
 # Auth: Basic auth with API key as username, empty password
-MARS_API_KEY=oK/SXE39wQhfeQg7fsBmS4ZrITNQhmzw
+MARS_API_KEY=...
 ```
 
 ---

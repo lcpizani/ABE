@@ -16,29 +16,29 @@ description: >
 
 ## What to do
 
-Search the knowledge base first. Always. Do not answer program questions
+Use the abe-knowledge skill first. Always. Do not answer program questions
 from training knowledge alone — program details, eligibility thresholds,
 and limits change every year.
 
-### Step 1 — Search the knowledge base
+### Step 1 — Use the abe-knowledge skill
 
-Run a targeted query based on what the farmer asked:
+Invoke the **abe-knowledge** skill with a targeted query based on what the
+farmer asked. Let abe-knowledge handle the search, citation, and fallback
+logic — do not run gno directly from this skill.
 
-```bash
-gno ask "QUESTION" --answer -c abe-knowledge
-```
+Good queries to pass to abe-knowledge:
+- "what programs can a beginning farmer in Iowa qualify for"
+- "FSA beginning farmer loan eligibility requirements"
+- "Iowa Beginning Farmer Tax Credit how it works"
+- "BFLP loan program requirements and limits 2026"
+- "LPP loan participation program Iowa"
+- "ARC-CO vs PLC Iowa corn soybeans"
+- "EQIP cost share beginning farmer"
 
-Good queries:
-- `gno ask "what programs can a beginning farmer in Iowa qualify for" --answer -c abe-knowledge`
-- `gno ask "FSA beginning farmer loan eligibility requirements" --answer -c abe-knowledge`
-- `gno ask "Iowa Beginning Farmer Tax Credit how it works" --answer -c abe-knowledge`
-- `gno ask "BFLP loan program requirements and limits 2026" --answer -c abe-knowledge`
-- `gno ask "LPP loan participation program Iowa" --answer -c abe-knowledge`
-- `gno ask "ARC-CO vs PLC Iowa corn soybeans" --answer -c abe-knowledge`
-- `gno ask "EQIP cost share beginning farmer" --answer -c abe-knowledge`
+If the farmer's situation touches multiple programs, invoke abe-knowledge
+once per program so each query stays focused.
 
-If the farmer's situation touches multiple programs, run a separate
-query for each one.
+Once abe-knowledge returns results, continue to Step 2.
 
 ### Step 2 — Check what you know about the farmer
 

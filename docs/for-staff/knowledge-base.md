@@ -1,6 +1,85 @@
-# Managing the Knowledge Base
+# Data Collection, Preparation, and Knowledge Base
 
-The knowledge base is a folder of documents that ABE searches when a farmer asks about programs, leases, financing, or disease management. The `gno` daemon watches this folder and indexes documents automatically.
+This page covers where ABE's data comes from, how it was collected and prepared, and how to manage the knowledge base going forward.
+
+---
+
+## Data sources overview
+
+ABE draws on four categories of data. Each is described below with its source, type, scope, and how it was collected.
+
+### Structured benchmark data (SQLite)
+
+**ISU Extension C2-10 — Cash Rental Rates for Iowa**
+
+Iowa State University Extension publishes C2-10 annually based on a statewide survey of farm operators, landowners, and farm managers. We extracted the county-level data and loaded it into the `cash_rent` table in `data/abe.db` using `scripts/seed_cash_rent.py`.
+
+- Type: Structured tabular data
+- Scope: All 99 Iowa counties — average rent, high/medium/low quality tier benchmarks, CSR2 soil productivity score, corn and soybean yield averages
+- Size: 99 rows, 12 columns
+- Published at: [extension.iastate.edu/agdm](https://www.extension.iastate.edu/agdm)
+
+**ISU Extension A1-20 — Estimated Costs of Crop Production in Iowa (2026)**
+
+ISU Extension publishes A1-20 annually as an Excel workbook. We parse it using `scripts/update_data.py` (openpyxl) and load it into `crop_production_costs` in `data/abe.db`.
+
+- Type: Structured tabular data (Excel)
+- Scope: Line-item production costs for corn and soybeans across low, medium, and high yield tiers — seed, fertilizer, pesticide, drying, crop insurance, labor, machinery, overhead
+- Size: ~300 rows across cost categories, crops, and yield tiers
+- File: `knowledge/a1-20.xlsx`
+- Published at: [extension.iastate.edu/agdm](https://www.extension.iastate.edu/agdm)
+
+---
+
+### Live market and weather data (APIs)
+
+| Source | Type | Scope | Update frequency | Fallback |
+|---|---|---|---|---|
+| [USDA AMS MARS](https://mymarketnews.ams.usda.gov) | JSON (API) | Daily Iowa corn and soybean cash prices | Weekday daily | `data/mars_fallback.csv` |
+| [USDA NASS QuickStats](https://quickstats.nass.usda.gov) | JSON (API) | Annual Iowa prices and yields; weekly crop progress | Annual / weekly (Apr–Oct) | `data/nass_fallback.csv`, `data/crop_progress_fallback.csv` |
+| [Open-Meteo](https://open-meteo.com) | JSON (API) | Weather history and 16-day forecast for any Iowa county | Real-time (each query) | None — always live |
+
+County names are resolved to lat/lon using `data/iowa_counties.json` (all 99 Iowa counties, compiled from USDA and Census geographic data).
+
+---
+
+### Corn disease image data (CornCNN2)
+
+The disease detector model was trained on the [PlantVillage Dataset](https://github.com/spMohanty/PlantVillage-Dataset) — a publicly available, peer-reviewed dataset of labeled plant disease images from Penn State, published under open license.
+
+- Type: Labeled images (JPEG/PNG)
+- Scope: Corn leaf images across seven classes (six diseases + healthy)
+- Classes: Northern Corn Leaf Blight, Southern Corn Leaf Blight, Common Rust, Grey Leaf Spot, Lethal Necrosis, Streak Virus, Healthy
+- Model: CornCNN2 — a custom PyTorch CNN. Architecture in `skills/corn-disease-detector/scripts/CornCNN.py`, weights in `parameters.pth`
+- Confidence threshold: ABE requires ≥60% confidence before reporting a diagnosis
+
+---
+
+### Policy and guidance documents (knowledge base)
+
+~41 publicly available documents from USDA, ISU Extension, Iowa Finance Authority, and university extension programs. All documents are free to access. See [Knowledge Documents](../reference/knowledge-documents.md) for the full inventory.
+
+- Type: PDF and plain text
+- Scope: FSA loans, Iowa BFLP/LPP, EQIP/CSP, ARC-CO/PLC, lease agreements, farmland financing, corn disease management
+- Size: ~41 files, approximately 300,000 words of indexed content
+- Indexing: Hybrid BM25 + vector search via the `gno` daemon (Qwen3-Embedding-0.6B embeddings)
+
+---
+
+### Data sharing
+
+All data used by ABE is publicly available. No proprietary data is used.
+
+| Dataset | Link |
+|---|---|
+| ISU Extension AgDM publications (C2-10, A1-20, etc.) | [extension.iastate.edu/agdm](https://www.extension.iastate.edu/agdm) |
+| USDA NASS QuickStats | [quickstats.nass.usda.gov](https://quickstats.nass.usda.gov) |
+| USDA AMS MyMarketNews | [mymarketnews.ams.usda.gov](https://mymarketnews.ams.usda.gov) |
+| Open-Meteo weather | [open-meteo.com](https://open-meteo.com) |
+| PlantVillage disease images | [github.com/spMohanty/PlantVillage-Dataset](https://github.com/spMohanty/PlantVillage-Dataset) |
+| Iowa counties coordinates | Included in repo: `data/iowa_counties.json` |
+| Agricultural calendar | Included in repo: `data/ag_calendar.json` |
+| Processed SQLite database | Included in repo: `data/abe.db` |
 
 ---
 

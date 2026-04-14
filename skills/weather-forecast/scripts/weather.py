@@ -103,27 +103,42 @@ def run_history(county: str, days: int) -> dict:
 
     days_data = []
     for i, dt in enumerate(daily["time"]):
+        # Handle None values gracefully
+        temp_high = daily["temperature_2m_max"][i]
+        temp_low = daily["temperature_2m_min"][i]
+        precip = daily["precipitation_sum"][i]
+        humidity = daily["relative_humidity_2m_max"][i]
+        wind = daily["wind_speed_10m_max"][i]
+        
         days_data.append({
             "date":          dt,
-            "temp_high_f":   round(daily["temperature_2m_max"][i], 1),
-            "temp_low_f":    round(daily["temperature_2m_min"][i], 1),
-            "precip_in":     round(daily["precipitation_sum"][i], 2),
-            "humidity_max":  round(daily["relative_humidity_2m_max"][i], 1),
-            "wind_max_mph":  round(daily["wind_speed_10m_max"][i], 1),
+            "temp_high_f":   round(temp_high, 1) if temp_high is not None else None,
+            "temp_low_f":    round(temp_low, 1) if temp_low is not None else None,
+            "precip_in":     round(precip, 2) if precip is not None else 0.0,
+            "humidity_max":  round(humidity, 1) if humidity is not None else None,
+            "wind_max_mph":  round(wind, 1) if wind is not None else None,
         })
 
     disease_days = sum(
         1 for d in days_data
-        if d["humidity_max"] >= DISEASE_HUMIDITY_MIN
+        if d["humidity_max"] is not None and d["temp_high_f"] is not None
+        and d["humidity_max"] >= DISEASE_HUMIDITY_MIN
         and DISEASE_TEMP_MIN_F <= d["temp_high_f"] <= DISEASE_TEMP_MAX_F
     )
 
     total_precip = round(sum(d["precip_in"] for d in days_data), 2)
-    avg_high     = round(sum(d["temp_high_f"] for d in days_data) / len(days_data), 1)
-    avg_low      = round(sum(d["temp_low_f"]  for d in days_data) / len(days_data), 1)
-    avg_humidity = round(sum(d["humidity_max"] for d in days_data) / len(days_data), 1)
-    avg_wind     = round(sum(d["wind_max_mph"] for d in days_data) / len(days_data), 1)
-    frost_days   = sum(1 for d in days_data if d["temp_low_f"] <= FROST_THRESHOLD_F)
+    
+    # Calculate averages, filtering out None values
+    valid_highs = [d["temp_high_f"] for d in days_data if d["temp_high_f"] is not None]
+    valid_lows = [d["temp_low_f"] for d in days_data if d["temp_low_f"] is not None]
+    valid_humidity = [d["humidity_max"] for d in days_data if d["humidity_max"] is not None]
+    valid_wind = [d["wind_max_mph"] for d in days_data if d["wind_max_mph"] is not None]
+    
+    avg_high     = round(sum(valid_highs) / len(valid_highs), 1) if valid_highs else None
+    avg_low      = round(sum(valid_lows) / len(valid_lows), 1) if valid_lows else None
+    avg_humidity = round(sum(valid_humidity) / len(valid_humidity), 1) if valid_humidity else None
+    avg_wind     = round(sum(valid_wind) / len(valid_wind), 1) if valid_wind else None
+    frost_days   = sum(1 for d in days_data if d["temp_low_f"] is not None and d["temp_low_f"] <= FROST_THRESHOLD_F)
 
     return {
         "mode":                  "history",
@@ -173,14 +188,21 @@ def run_forecast(county: str) -> dict:
 
     days_data = []
     for i, dt in enumerate(daily["time"]):
+        # Handle None values gracefully
+        temp_high = daily["temperature_2m_max"][i]
+        temp_low = daily["temperature_2m_min"][i]
+        precip = daily["precipitation_sum"][i]
+        humidity = daily["relative_humidity_2m_max"][i]
+        wind = daily["wind_speed_10m_max"][i]
+        
         days_data.append({
             "date":            dt,
-            "temp_high_f":     round(daily["temperature_2m_max"][i], 1),
-            "temp_low_f":      round(daily["temperature_2m_min"][i], 1),
-            "precip_in":       round(daily["precipitation_sum"][i], 2),
+            "temp_high_f":     round(temp_high, 1) if temp_high is not None else None,
+            "temp_low_f":      round(temp_low, 1) if temp_low is not None else None,
+            "precip_in":       round(precip, 2) if precip is not None else 0.0,
             "precip_prob_pct": daily["precipitation_probability_max"][i],
-            "humidity_max":    round(daily["relative_humidity_2m_max"][i], 1),
-            "wind_max_mph":    round(daily["wind_speed_10m_max"][i], 1),
+            "humidity_max":    round(humidity, 1) if humidity is not None else None,
+            "wind_max_mph":    round(wind, 1) if wind is not None else None,
             "weathercode":     daily["weathercode"][i],
         })
 
@@ -217,7 +239,7 @@ def run_alerts(county: str) -> dict:
 
     # --- Frost risk (next 5 days) ---
     for day in forecast["daily"][:5]:
-        if day["temp_low_f"] <= FROST_THRESHOLD_F:
+        if day["temp_low_f"] is not None and day["temp_low_f"] <= FROST_THRESHOLD_F:
             alerts.append({
                 "type":     "frost_risk",
                 "date":     day["date"],
@@ -228,7 +250,7 @@ def run_alerts(county: str) -> dict:
     # --- Heat stress (next 14 days, growing season May–Aug) ---
     if 5 <= date.today().month <= 8:
         for day in forecast["daily"][:14]:
-            if day["temp_high_f"] >= HEAT_STRESS_F:
+            if day["temp_high_f"] is not None and day["temp_high_f"] >= HEAT_STRESS_F:
                 alerts.append({
                     "type":     "heat_stress",
                     "date":     day["date"],

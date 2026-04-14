@@ -88,3 +88,4 @@ ABE does not make decisions for farmers. It surfaces real numbers with real sour
 - [Environment Variables](reference/environment-variables.md)
 - [CLI Commands](reference/cli-commands.md)
 - [Knowledge Documents](reference/knowledge-documents.md)
+- [Sources](reference/sources.md)

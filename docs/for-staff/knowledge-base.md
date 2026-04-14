@@ -45,7 +45,7 @@ County names are resolved to lat/lon using `data/iowa_counties.json` (all 99 Iow
 
 ### Corn disease image data (CornCNN2)
 
-The disease detector model was trained on the [PlantVillage Dataset](https://github.com/spMohanty/PlantVillage-Dataset) — a publicly available, peer-reviewed dataset of labeled plant disease images from Penn State, published under open license.
+The disease detector model was trained on labeled corn leaf disease images from three sources: Hugging Face and two datasets from the Nelson Mandela Research Institute.
 
 - Type: Labeled images (JPEG/PNG)
 - Scope: Corn leaf images across seven classes (six diseases + healthy)
@@ -76,7 +76,7 @@ All data used by ABE is publicly available. No proprietary data is used.
 | USDA NASS QuickStats | [quickstats.nass.usda.gov](https://quickstats.nass.usda.gov) |
 | USDA AMS MyMarketNews | [mymarketnews.ams.usda.gov](https://mymarketnews.ams.usda.gov) |
 | Open-Meteo weather | [open-meteo.com](https://open-meteo.com) |
-| PlantVillage disease images | [github.com/spMohanty/PlantVillage-Dataset](https://github.com/spMohanty/PlantVillage-Dataset) |
+| Corn leaf disease images (training data) | Hugging Face + Nelson Mandela Research Institute (×2 datasets) |
 | Iowa counties coordinates | Included in repo: `data/iowa_counties.json` |
 | Agricultural calendar | Included in repo: `data/ag_calendar.json` |
 | Processed SQLite database | Included in repo: `data/abe.db` |

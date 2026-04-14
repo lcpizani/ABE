@@ -95,21 +95,24 @@ Retrieval-augmented generation using hybrid search: **BM25** (keyword matching) 
 
 ### Origins and attribution
 
-The CornCNN2 model was not built from scratch by SAU Hive Mind. It was developed in the previous academic year by a team of St. Ambrose University students as part of a separate research project. They trained a convolutional neural network to identify corn leaf diseases from photographs and generously shared their trained model with our team.
+The CornCNN2 model was not built from scratch by SAU Hive Mind. It was developed in the previous academic year by a team of St. Ambrose University students as part of their submission to the Pi515 challenge. They trained a convolutional neural network to identify corn leaf diseases from photographs.
 
-We integrated their work into ABE as the corn disease detection skill, wrapped it with a confidence threshold and a plain-language output layer, and connected it to the knowledge base so that after any diagnosis, ABE automatically retrieves management and treatment guidance for the identified disease.
+Thanks to their generosity, they shared the model with us and we integrated it into ABE as the corn leaf disease detection skill, wrapped it with a confidence threshold and a plain-language output layer, and connected it to the knowledge base so that after any diagnosis, ABE automatically retrieves management and treatment guidance for the identified disease.
 
-All credit for the model architecture, training methodology, and trained weights belongs to the original SAU team.
+All credit for the model architecture, training methodology, and trained weights belongs to the original SAU team (Ambrose AI).
 
 ### Model type
 
-Computer vision — convolutional neural network (CNN) built in PyTorch, trained on visual image data of corn leaves from the [PlantVillage Dataset](https://github.com/spMohanty/PlantVillage-Dataset).
+Computer vision — convolutional neural network (CNN) built in PyTorch, trained on labeled corn leaf images from Hugging Face and two datasets from the Nelson Mandela Research Institute.
 
 ### Training data
 
-The model was trained on photographs of corn leaves, each labeled with the disease present or marked as healthy. The images were sourced from the PlantVillage Dataset — a peer-reviewed, publicly available collection of labeled plant disease images developed by Penn State and published under open license.
+The model was trained on photographs of corn leaves, each labeled with the disease present or marked as healthy. Images were drawn from three sources:
 
-Each image is a close-up photograph of a single corn leaf under controlled lighting conditions. The dataset captures the visual patterns characteristic of each disease: the cigar-shaped lesions of northern blight, the pustule clusters of common rust, the rectangular grey lesions of grey leaf spot, and so on.
+- **Hugging Face** — corn leaf disease image dataset(s) providing labeled photographs across disease classes
+- **Nelson Mandela Research Institute (×2)** — two datasets of labeled corn leaf disease images used to supplement training data and improve class coverage
+
+Each image is a close-up photograph of a single corn leaf. The dataset captures the visual patterns characteristic of each disease: the cigar-shaped lesions of northern blight, the pustule clusters of common rust, the rectangular grey lesions of grey leaf spot, and so on.
 
 Images were preprocessed using standard torchvision transforms: resized to a consistent input dimension, normalized, and augmented with flips and rotations to improve generalization.
 
@@ -152,7 +155,7 @@ After a confirmed diagnosis, ABE:
 | [PyTorch](https://pytorch.org) | Model architecture and inference |
 | [torchvision](https://pytorch.org/vision/) | Image preprocessing and transforms |
 | [Pillow (PIL)](https://python-pillow.org) | Image loading |
-| PlantVillage Dataset | Training and validation data |
+| Corn leaf disease datasets (Hugging Face + Nelson Mandela Research Institute ×2) | Training and validation data |
 
 ### Evaluation metrics
 
@@ -164,6 +167,22 @@ The CornCNN2 model was evaluated by the original SAU team using:
 - **Confusion matrix** — to identify which disease pairs are most likely to be confused
 
 For ABE-level evaluation (skill invocation and output quality), see [How We Evaluated ABE](evaluation.md).
+
+### Training and validation performance
+
+The charts below show training dynamics and final model quality across all six disease classes.
+
+**Training metrics**
+
+![CornCNN2 training metrics](../assets/corncnn2-training-performance.png)
+
+The top-left panel shows training and validation loss converging around epoch 35, with the best model checkpoint marked by the dotted green line. Top-right shows unweighted validation accuracy stabilizing above 90%. The middle row shows mean precision, recall, and F1 score over training. The bottom row shows per-class precision and recall — all six disease classes and the healthy class reach stable performance by the final epochs.
+
+**Feature space visualization (t-SNE)**
+
+![CornCNN2 t-SNE feature space](../assets/corncnn2-tsne.png)
+
+The left panel shows the model's learned feature space colored by disease class — the seven classes form distinct, well-separated clusters, confirming the model has learned meaningful visual distinctions between diseases rather than superficial patterns. The right panel overlays correct vs. incorrect classifications: the misclassifications (red) cluster at the boundaries between classes, which is the expected failure mode for a CNN trained on leaf images.
 
 ---
 

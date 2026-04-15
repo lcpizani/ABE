@@ -71,6 +71,6 @@ ABE was built for two Pi515 competition tracks:
 
 ## Related documentation
 
-- [What ABE Covers](for-partners/what-abe-covers.md) — full skill reference
-- [Knowledge Sources](for-partners/knowledge-sources.md) — every data source ABE uses
+- [What ABE Covers](../for-partners/what-abe-covers.md) — full skill reference
+- [Knowledge Sources](../for-partners/knowledge-sources.md) — every data source ABE uses
 - [Impact and Feasibility](impact-and-feasibility.md) — estimated impact and scale analysis

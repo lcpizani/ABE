@@ -166,7 +166,7 @@ The CornCNN2 model was evaluated by the original SAU team using:
 - **Per-class recall** — of images that are class X, how many did the model identify
 - **Confusion matrix** — to identify which disease pairs are most likely to be confused
 
-For ABE-level evaluation (skill invocation and output quality), see [How We Evaluated ABE](evaluation.md).
+For full evaluation methodology and qualitative analysis, see [How We Evaluated ABE](evaluation.md).
 
 ### Training and validation performance
 

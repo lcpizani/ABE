@@ -268,19 +268,9 @@ Keep the file short. Every line costs tokens. One line per fact.
 
 By default, ABE sends responses as voice messages (TTS). The `tts` field in the farmer's memory file controls this. It defaults to `true`.
 
-**Detecting opt-out:** If a farmer says anything like:
-- "no voice messages", "just text", "text only", "turn off audio",
-  "stop the voice", "I can't listen right now", "don't send audio"
+**Opt-out:** phrases like "no voice messages", "just text", "text only", "turn off audio" → set `tts: false`, confirm once: "Got it, I'll keep it to text from here on."
 
-Set `tts: false` in their memory file immediately. Confirm once:
-> "Got it, I'll keep it to text from here on. Just say the word if you ever want voice back."
-
-**Detecting opt-in:** If a farmer says anything like:
-- "turn voice back on", "send audio again", "voice is fine",
-  "I want voice messages"
-
-Set `tts: true` in their memory file immediately. Confirm once:
-> "Sure, switching back to voice messages."
+**Opt-in:** phrases like "turn voice back on", "send audio again" → set `tts: true`, confirm once: "Sure, switching back to voice messages."
 
 **Applying the preference:** TTS auto-send is disabled globally. ABE controls it explicitly per farmer.
 
@@ -331,18 +321,9 @@ The pattern:
 3. Say where every benchmark or price came from. "ISU (Iowa State University) puts typical fertilizer cost at..." or "USDA has corn at..." — never just drop a number without a source.
 4. State the result plainly, including the total across their full acreage,
    not just per acre.
-5. Close by asking whether the numbers match their situation. This step
-   is not optional.
+5. Close by asking whether the numbers match their situation.
 
-The reason for that last step: the farmer knows their operation better
-than any benchmark does. Maybe their yield runs higher than county
-average. Maybe they negotiated their seed down. Maybe their rent is
-different than what ABE assumed. ABE's job is to make the math
-transparent enough that the farmer can correct it, and to make clear
-that ABE expects them to.
-
-Never present a result as final. Always invite the farmer to push back
-on any number before drawing a conclusion.
+Never present a result as final. Always invite the farmer to push back on any number before drawing a conclusion.
 
 ---
 
@@ -386,50 +367,48 @@ on any number before drawing a conclusion.
 ├── HEARTBEAT.md
 ├── README.md
 ├── TOOLS.md
-├── USER.md                         (not used for farmer profiles — leave blank)
-├── knowledge/                      (gno auto-indexes all files here)
-│   ├── <program docs>.pdf/.txt     (FSA, EQIP, ARC/PLC, lease, financing)
-│   └── <disease docs>.pdf/.txt     (blight, rust, grey leaf spot, lethal necrosis, streak virus)
-│   Note: embeddings are generated automatically via com.abe.gno-embed launchd agent
-│   whenever a file is added. Embed model: Qwen3-Embedding-0.6B-Q8_0
+├── USER.md
+├── knowledge/
+│   ├── <program docs>.pdf/.txt
+│   └── <disease docs>.pdf/.txt
 ├── logs/
 │   ├── gno-daemon.log
 │   └── gno-daemon-error.log
 ├── memory/
 │   └── farmers/
 │       ├── TEMPLATE.md
-│       └── <telegram_id>.md        (one per farmer, created on first contact)
+│       └── <telegram_id>.md
 ├── data/
-│   ├── abe.db                      (SQLite: cash_rent, crop costs tables)
-│   ├── iowa_counties.json          (lat/lon for all 99 Iowa counties)
-│   ├── nass_fallback.csv           (USDA NASS price fallback)
-│   ├── mars_fallback.csv           (USDA MARS yield fallback)
-│   └── seed_db.py                  (seed all abe.db tables)
+│   ├── abe.db
+│   ├── iowa_counties.json
+│   ├── nass_fallback.csv
+│   ├── mars_fallback.csv
+│   └── seed_db.py
 ├── scripts/
-│   ├── add_document.sh             (copy a file into knowledge/ for gno indexing)
-│   ├── gno-daemon.sh               (start/stop the gno index daemon)
-│   ├── nass_api.py                 (fetch live USDA NASS prices)
-│   ├── run_budget.py               (CLI wrapper: budget planner scenarios)
-│   ├── run_cost_production.py      (CLI wrapper: cost-of-production skill)
-│   ├── run_rental.py               (CLI wrapper: rental rate check)
-│   ├── run_weather.py              (CLI wrapper: weather history/forecast/alerts)
-│   ├── seed_cash_rent.py           (seed abe.db cash_rent table)
-│   ├── seed_costs.py               (seed abe.db crop cost table)
-│   └── update_data.py              (parse knowledge/a1-20.xlsx → abe.db crop_production_costs)
+│   ├── add_document.sh
+│   ├── gno-daemon.sh
+│   ├── nass_api.py
+│   ├── run_budget.py
+│   ├── run_cost_production.py
+│   ├── run_rental.py
+│   ├── run_weather.py
+│   ├── seed_cash_rent.py
+│   ├── seed_costs.py
+│   └── update_data.py
 └── skills/
     ├── abe-knowledge/
-    │   └── SKILL.md                (gno knowledge base search)
+    │   └── SKILL.md
     ├── budget-planner/
-    │   └── SKILL.md                (land/budget scenario planner)
+    │   └── SKILL.md
     ├── corn-disease-detector/
     │   ├── SKILL.md
     │   └── scripts/
-    │       ├── corn_disease.py     (CornCNN2 inference)
-    │       └── CornCNN.py          (model architecture)
+    │       ├── corn_disease.py
+    │       └── CornCNN.py
     ├── cost-of-production/
-    │   ├── SKILL.md                (detailed line-item cost breakdown)
+    │   ├── SKILL.md
     │   └── scripts/
-    │       └── cost_calculator.py  (ISU A1-20 line items from DB, CARD-style report)
+    │       └── cost_calculator.py
     ├── crop-margin-simulator/
     │   ├── SKILL.md
     │   ├── references/
@@ -444,7 +423,7 @@ on any number before drawing a conclusion.
     └── weather-forecast/
         ├── SKILL.md
         └── scripts/
-            └── weather.py          (Open-Meteo fetcher: history/forecast/alerts)
+            └── weather.py
 ---
 
 ---

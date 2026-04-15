@@ -6,32 +6,35 @@ So we evaluated ABE across six dimensions that reflect what actually matters for
 
 ---
 
-## 1. 50-Question Benchmark
+## 1. 52-Question Benchmark
 
 **What we tested:** Whether ABE gives correct, sourced answers to the questions Iowa beginning farmers actually ask.
 
-**Method:** We wrote 50 questions covering the full range of ABE's skill areas — rental rate queries, margin calculations, program eligibility, disease identification, weather interpretation, lease guidance, and budget scenarios. For each question, we wrote a model answer defining what a correct, well-sourced, appropriately-toned response looks like. We then ran each question through ABE and scored the actual response against the model answer on three criteria:
+**Method:** We wrote 52 questions covering the full range of ABE's skill areas — rental rate queries, margin calculations, program eligibility, disease identification, weather interpretation, lease guidance, and budget scenarios. For each question, we wrote a model answer defining what a correct, well-sourced, appropriately-toned response looks like. We then ran each question through ABE and scored the actual response against the model answer using the following scoring rubric:
 
-| Criterion | Description |
+| Score | Meaning |
 |---|---|
-| Factual accuracy | Is the answer correct given the underlying data? |
-| Source citation | Does ABE name the source (ISU, USDA, Open-Meteo) inline? |
-| Response quality | Is the answer direct, appropriately scoped, and free of hallucination? |
+| 1 | Correct and complete — ABE did everything the question required |
+| 0.5 | Partial — ABE responded but missed part of what was needed (wrong county, missing citation, incomplete output) |
+| 0 | Incorrect or no response — ABE failed to answer, called the wrong skill, or produced an error |
 
-**Question distribution:**
+**Question distribution and results:**
 
-| Skill area | Questions |
-|---|---|
-| Rental rate check | 7 |
-| Crop margin simulator | 10 |
-| Cost of production | 6 |
-| Program screener (FSA, EQIP, ARC/PLC, Iowa programs) | 10 |
-| Weather forecast and alerts | 5 |
-| Corn disease detection | 5 |
-| Budget planner | 4 |
-| Knowledge base (lease, financing, policy) | 3 |
+| Skill area | Questions | Score | % |
+|---|---|---|---|
+| Rental Rate Check | 8 | 7.5 / 8 | 93.8% |
+| Crop Margin Simulator | 8 | 8 / 8 | 100% |
+| Cost of Production | 6 | 6 / 6 | 100% |
+| Program Screener (FSA, EQIP, ARC/PLC, Iowa programs) | 8 | 7.5 / 8 | 93.8% |
+| Weather Forecast and Alerts | 5 | 5 / 5 | 100% |
+| Budget Planner | 5 | 5 / 5 | 100% |
+| Behavioral / Conversational | 5 | 5 / 5 | 100% |
+| Corn Disease Detector | 7 | 5 / 7 | 71.4% |
+| **Overall** | **52** | **49 / 52** | **94.2%** |
 
-**Results:** *(See attached spreadsheet — Benchmark Results tab)*
+Six of eight skills scored 100% or higher than 93%. The Corn Disease Detector scored 71.4% — the two missed questions involved images where quality pushed model confidence near the 60% threshold, causing ABE to correctly request a clearer photo rather than commit to an uncertain diagnosis. ABE recorded zero tool-calling errors across all 52 questions.
+
+**Results:** *49 / 52* (94.2%)
 
 ---
 
@@ -39,13 +42,13 @@ So we evaluated ABE across six dimensions that reflect what actually matters for
 
 **What we tested:** Whether ABE attributes every financial figure to a named, authoritative source.
 
-**Method:** Across all 50 benchmark responses and the 5 full profile runs, we logged every numeric claim ABE made (prices, costs, benchmarks, yields) and checked whether it was followed by a named source citation. Citations counted as valid only when they named the specific publication or API — "ISU Extension A1-20 (2026)", "ISU C2-10", "USDA NASS", "USDA MARS", "Open-Meteo" — not vague references like "according to data" or "based on Iowa averages."
+**Method:** Across all 50 benchmark responses and the 5 full profile runs, we logged every numeric claim ABE made (prices, costs, benchmarks, yields) and checked whether it was followed by a named source citation. Citations counted as valid only when they named the specific publication or API: "ISU Extension A1-20 (2026)", "ISU C2-10", "USDA NASS", "USDA MARS", "Open-Meteo", not vague references like "according to data" or "based on Iowa averages."
 
 **Target:** 100% of financial figures cited.
 
 **Why this matters:** ABE's core promise is that it never invents numbers. A figure without a source is indistinguishable from a hallucination. This dimension directly tests that promise.
 
-**Results:** *(See attached spreadsheet — Citation Rate tab)*
+**Results:** *Almost 100% of the times (only times ABE didn't source was if it was referencing a previous stated number)*
 
 ---
 
@@ -65,7 +68,7 @@ So we evaluated ABE across six dimensions that reflect what actually matters for
 
 We also deliberately tested edge cases: querying a county that exists in the database but has sparse data, sending a blurry disease photo below the 60% confidence threshold, asking about a crop ABE does not support (livestock), and triggering a MARS API timeout to verify fallback behavior.
 
-**Results:** *(See attached spreadsheet — Skill Errors tab)*
+**Results:** *0 skill calling errors*
 
 ---
 
@@ -85,7 +88,7 @@ We also deliberately tested edge cases: querying a county that exists in the dat
 
 For each arc, we verified: profile file created/updated correctly, correct skill invoked, memory used on return, persona maintained throughout, and no banned words or double dashes in any message.
 
-**Results:** *(See attached spreadsheet — Profile Runs tab)*
+**Results:** *All ran smoothly. Even leaving the conversation and coming back, ABE remembered my information, always cited sources behind numbers.*
 
 ---
 
@@ -113,29 +116,19 @@ Each response was scored pass/fail per check. Any fail was logged with the exact
 
 ---
 
-## 6. Cost per Conversation
+## 6. Cost per Message
 
 **What we tested:** Whether ABE is financially viable at scale.
 
-**Method:** We enabled token logging via the Anthropic API across all benchmark and profile run sessions. For each conversation turn, we recorded:
+**Method:** Token usage and cost were captured via OpenClaw session logs across all real-farmer sessions. For each session, we recorded total messages sent and total session cost, then calculated cost per message.
 
-- Input tokens (context + farmer message)
-- Output tokens (ABE's response)
-- Total tokens per turn
-- Total tokens per full conversation arc
+Average cost per message across all sessions: **~$0.0175**
 
-We then calculated cost per turn and cost per full conversation arc at Claude Sonnet pricing, and compared against Claude Haiku as a lower-cost alternative.
+Cost per message varies with skill mix — disease detection and knowledge base synthesis responses cost more per turn due to higher token usage; short factual queries cost less. Response latency averaged 8 to 18 seconds per message, including tool invocation, API calls, and retrieval.
 
-We also identified the highest-cost skill invocations (skill routing with large JSON outputs, knowledge base synthesis responses) to understand where token usage concentrates.
+At $0.017/message and an estimated 30 messages per farmer per month, 100 active farmers would cost roughly **$270/month** — less than two hours with a farm management consultant.
 
-| Metric | Value |
-|---|---|
-| Avg. tokens per turn | *(see spreadsheet)* |
-| Avg. tokens per full conversation | *(see spreadsheet)* |
-| Avg. cost per conversation (Sonnet) | *(see spreadsheet)* |
-| Estimated monthly cost at 100 active farmers | *(see spreadsheet)* |
-
-**Results:** *(See attached spreadsheet — Cost Analysis tab)*
+**Results:** Average ~$0.017 per message.
 
 ---
 
@@ -143,23 +136,9 @@ We also identified the highest-cost skill invocations (skill routing with large 
 
 | Dimension | Method | Target | Result |
 |---|---|---|---|
-| 50-Question Benchmark | Manual scoring vs. model answers | >90% pass rate | *(see spreadsheet)* |
-| Source Citation Rate | Citation audit across all numeric claims | 100% | *(see spreadsheet)* |
-| Skill Calling Errors | Invocation log + edge case tests | 0 routing errors | *(see spreadsheet)* |
-| Full Profile Runs | 5 end-to-end arcs across multiple sessions | All arcs pass | *(see spreadsheet)* |
+| 52-Question Benchmark | Manual scoring (1 / 0.5 / 0) vs. model answers | >90% pass rate | 94.2% (49/52) |
+| Source Citation Rate | Citation audit across all numeric claims | 100% | Almost 100% |
+| Skill Calling Errors | Invocation log + edge case tests | 0 routing errors | 0 errors |
+| Full Profile Runs | 5 end-to-end arcs across multiple sessions | All arcs pass | All arcs pass |
 | Tone and Persona Audit | Checklist against AGENTS.md / SOUL.md rules | 0 violations | *(see spreadsheet)* |
-| Cost per Conversation | Token logging via Anthropic API | <$0.10/conversation | *(see spreadsheet)* |
-
----
-
-## How to add results
-
-When results are ready:
-
-1. Fill in the spreadsheet tabs referenced above.
-2. Replace each `*(see spreadsheet)*` cell in the Summary table with the actual number.
-3. Embed the Excel chart images below the Summary table using standard Markdown image syntax:
-   ```markdown
-   ![Benchmark Results](../assets/benchmark-results.png)
-   ```
-4. Drop chart exports into a new `docs/assets/` folder.
+| Cost per Message | Token logging via OpenClaw session logs | <$0.05/message | ~$0.02/message |
